@@ -191,12 +191,54 @@ def PostLV4Admin(request):
     model = PostAdmin.objects.all()
     return render(request, 'blog/post_Admin_write.html', {'posts': model})
 
+import cv2
+import numpy as np
+import pymysql
+
+def ajax_test(request):
+    print("ajax_test ok")
+    return render(request,
+                  'blog/camera_ok.html',
+                  )
+from PIL import Image
+import base64
+
 def TEST(request):
     print("test ok")
-    now = PostAdmin.objects.all()
+
+    def _tuple2str(src: tuple) -> str:
+        dst = ''
+        for i in src:
+            dst += str(i) + ','
+        return dst[:-1]
+
+
+    # image = cv2.imread("../res/1.jpg", cv2.IMREAD_UNCHANGED)
+    # image_shape = _tuple2str(image.shape)
+    # image_bytes = image.tobytes()
+
+    # image_shape= "[2,3,3]"
+    # image_bytes = 1
+    # sql_query = 'INSERT INTO test (id, name, shape, image) VALUE (%s, %s, %s, %s)'
+    #
+    # connector = pymysql.connect(user='root', password='1234', host='127.0.0.1', database='holo')
+    # cursor = connector.cursor()
+    # cursor.execute(sql_query, (1, 'test_image', image_shape, image_bytes))
+    # connector.commit()
+    # connector.close()
+
+    form = request.POST # request의 POST 데이터들을 바로 PostForm에 담을 수 있습니다.
+    # if form.is_valid():  # 데이터가 form 클래스에서 정의한 조건 (max_length 등)을 만족하는지 체크합니다.
+    #     return render(request, 'second/confirm.html', {'form': form})
+    # return HttpResponseRedirect('/create/')  # 데이터가 유효하지 않으면 되돌아갑니다.
+    print(form['result_data'])
+
+    pngraw = base64.decodestring(form['result_data'])
+    print(pngraw)
     return render(request,
-                  'blog/post_Admin_community.html',
-                  {'posts': now})
+                  'blog/camera_ok.html',
+                  )
+
 
 # ADMIN 게시판 상세보기
 def postDetailAdmin(request, pk):

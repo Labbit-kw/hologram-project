@@ -33,6 +33,7 @@ urlpatterns = [
     # #####   admin 게시판 path   #####
     path('post/Admincommunity',CommunityAdmin.as_view(), name='post_community_admin'),
     path('post/Admincommunity2',TEST, name='TEST'),
+    path('post/Admincommunity3',ajax_test, name='ajax_test'),
 
     # path('post/Adminwrite', PostLV4Admin.as_view(), name='post_write_admin'), 원본 공지사항 글쓰기 뷰
     path('post/Adminwrite/', views.PostLV4Admin, name='post_write_admin'),
