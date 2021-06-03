@@ -1,0 +1,97 @@
+<script type="text/javascript">
+    function admin() {
+        var data = prompt("관리자 패스워드 입력");
+        if (data == "root") {
+            return true;
+        } else {
+            alert("비밀번호가 맞지 않습니다. 다시 입력해주세요.");
+            history.go(0);
+            return false;
+        }
+    }
+</script>
+
+<script type="text/javascript">
+    var index = 1;
+
+    function tst() {
+        var form = document.writeform;
+        count_num = prompt('in:');
+        document.writeform.contenttext.value = count_num;
+        document.writeform.submit();
+        form.submit();
+    }
+
+    function writeCheck() {
+        var form = document.writeform;
+
+        if (!form.contenttext.value) {
+            alert("이름을 적어주세요");
+            form.contenttext.focus();
+            return;
+        }
+        form.submit();
+    }
+</script>
+
+
+    <meta name="description" content="main homepage">
+    <meta name="author" content="Project C team">
+
+{% block header %}
+    <div id="header">
+        <a href="{% url "base" %}"><button type="button" class="btn btn-primary btn-block">Home</button></a>
+    </div>
+{% endblock header %}
+
+{% block container %} <!-- content에 실제 이 페이지의 내용을 포함한다. -->
+    <div id="content" class="container">
+        <h1><span  class="list-group-item list-group-item-info text-center">공지사항</span></h1>
+        <table class="table table-bordered"> <!-- 테이블 생성 -->
+            <thead>
+            <tr class="active">
+                <th class="text-center">번호</th>
+                <th class="text-center">제목</th>
+                <th class="text-center">글쓴이</th>
+                <th class="text-center">작성날짜</th>
+                <th class="text-center">조회수</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for post in posts %}
+                <tr class="active text-center">
+                    <td><a href='{% url "blog:post_detail_admin" post.id %}'>{{ post.id }}</a></td>
+                    <td><a href='{% url "blog:post_detail_admin" post.id %}'>{{ post.title }}</a></td>
+                    <td>{{ post.user_id }}</td>
+                    <td>{{ post.date | date:"Y-m-d" }}</td>
+                    <td>{{ post.hits }}</td>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <hr/>
+        <form method="post" action="{% url "blog:post_write_admin" %}" onsubmit="return admin()"
+              enctype="multipart/form-data">{% csrf_token %}
+            <td><input type="submit" class="btn btn-default" value="글쓰기"></td>
+        </form>
+        <div class="text-center">
+            <ul class="pagination">
+                <div>
+                    <span>
+                        {% if page_obj.has_previous %}
+                            <a class="btn btn-default pull-left" href="?page={{ page_obj.previous_page_number }}">이전</a>
+                        {% endif %}
+
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+
+                        {% if page_obj.has_next %}
+                            <a class="btn btn-default pull-right" href="?page={{ page_obj.next_page_number }}">다음</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </ul>
+        </div>
+    </div>
+    </div>
+{% endblock container %}

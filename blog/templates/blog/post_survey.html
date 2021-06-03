@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+{% load staticfiles %}
+<meta name="Survey" author="Project C Team" charset="UTF-8">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+      href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- jQuery와 Postcodify를 로딩한다 -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+
+<head>
+    <!--    sex / year / inter / dong -->
+    <script type="text/javascript">
+        function writeCheck() {
+            var form = document.writeform;
+
+            if (!form.sex.value) {
+                alert("성별을 선택해주세요");
+                form.sex.focus();
+                return;
+            }
+            if (!form.year.value) {
+                alert("연령대를 선택해주세요");
+                form.year.focus();
+                return;
+            }
+            if (!form.inter.value) {
+                alert("관심분야을 설정해주세요");
+                form.inter.focus();
+                return;
+            }
+            if (!form.dong.value) {
+                alert("주소를 설정해주세요");
+                form.dong.focus();
+                return;
+            }
+
+            form.submit();
+        }
+    </script>
+</head>
+
+{% block header %}
+    <div id="header">
+        <a href="{% url "base" %}">
+            <button type="button" class="btn btn-primary btn-block">Home</button>
+        </a>
+    </div>
+{% endblock header %}
+
+<body>
+<!--    sex / year / inter / dong -->
+<!-- 다음페이지url 지정   -->
+<form action="{% url "blog:post_survey" %}" method="post" name="writeform">{% csrf_token %}
+    <div align="center" class="p-3 mb-2 bg-light text-dark">
+        <h1><span class="list-group-item list-group-item-info text-center">설문조사</span></h1>
+        <div style=" width: 800px; height: 100px; border: solid 1px; display: flex" align="center">
+            <div style=" height: 100px;width: 200px; border-right: solid 1px; line-height: 100px">
+                <label><h4><strong>성별</strong></h4></label>
+            </div>
+            <div style="height: 100px;width: 250px; border-right: solid 1px; line-height: 100px; flex: 3;text-align: center">
+                <label for="남성" style="padding-left: 5px ">남성</label>
+                <input style="width:20px;height:20px;font-size: 20px;" type="radio" name="sex" id="남성" checked=""
+                       value="man"`>
+            </div>
+            <div style="height: 100px;width: 250px; line-height: 100px; flex: 3;text-align: center;">
+                <label for="여성" style="padding-left: 5px">여성</label>
+                <input style="width:20px;height:20px;font-size: 20px;" type="radio" name="sex" id="여성" value="woman">
+            </div>
+        </div>
+        <div style=" width: 800px; height: 100px; border: solid 1px" align="center">
+            <div style="float: left; height: 100px;width: 200px; border-right: solid 1px; line-height: 100px">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                <label><h4><strong>연령대</strong></h4></label>
+            </div>
+            <div style="height: 100px; width: 598px; float: right">
+                <select name="year" id="inputState" class="form-control" >
+                    <option value="10" selected>10대</option>
+                    <option value="20">20대</option>
+                    <option value="30">30대</option>
+                    <option value="40">40대</option>
+                    <option value="50">50대</option>
+                    <option value="60">60대이상</option>
+                </select>
+            </div>
+        </div>
+        <div style=" width: 800px; height: 100px; border: solid 1px" align="center">
+            <div style="float: left; height: 100px;width: 200px; border-right: solid 1px; line-height: 100px">
+                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                <label><h4><strong>관심 분야</strong></h4></label>
+            </div>
+            <div style="width: 598px; float: right">
+                <select name="inter" id="inputState" class="form-control">
+                    <option value="영화관">영화관</option>
+                    <option value="PC방">PC방</option>
+                    <option value="당구장">당구장</option>
+                    <option value="카페">카페</option>
+                    <option value="오락실">오락실</option>
+                    <option value="볼링장">볼링장</option>
+                </select>
+            </div>
+        </div>
+        <div style="width: 800px; height: 200px; border: solid 1px" align="center">
+            <div style="float: left; height: 200px;width: 200px; border-right: solid 1px; line-height: 200px">
+                <span class="glyphicon glyphicon-road" aria-hidden="true"></span>
+                <label><h4><strong>주소</strong></h4></label>
+            </div>
+            <div style="padding-top: 30px ; font-size: x-large">
+                <input type="text" name="" class="postcodify_postcode5" value="" style="background-color: white"
+                       readonly size="23"
+                       placeholder="버튼을 누르세요 -->"/>
+                <input type="button" id="postcodify_search_button" value="검색" class="btn btn-primary btn-lg"
+                       style="margin-bottom: 2px">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span><br/>
+                <input type="text" name="address" class="postcodify_address" value="" size="30"
+                       style="margin-bottom: 2px; background-color: white" readonly/><br/>
+                <input type="text" name="dong" class="postcodify_extra_info" size="30" value=""
+                       style="background-color: white"
+                       readonly/><br/>
+
+                <!-- "검색" 단추를 누르면 팝업 레이어가 열리도록 설정한다 -->
+                <script> $(function () {
+                    $("#postcodify_search_button").postcodifyPopUp();
+                }); </script>
+            </div>
+        </div>
+    </div>
+    <div align="center">
+        <br>
+        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+        <input type="button" id="back" class="btn btn-info" value="취소">
+        <input type="button" value="다음" class="btn btn-info" onclick="writeCheck()">
+        <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+    </div>
+</form>
+</body>
+</html>

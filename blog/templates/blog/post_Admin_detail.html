@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" , initial-scale="1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic">
+</head>
+{% for post in posts %}
+    <script type="text/javascript">
+        function admin() {
+            var data = prompt("관리자 패스워드 입력");
+            var id = "{{ post.id }}";
+            if (data == "root") {
+                window.location.href = "http://127.0.0.1:8000/blog/post/AdminDoWriteBoard/" + id;
+            } else {
+                alert("다시 입력해주세요");
+                history.go(0);
+            }
+        }
+    </script>
+    <body>
+    <div class="container">
+        <form action="/insertProc" method="post">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title"><b class="text-center"><h2>공지사항</h2></b></div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span><label><h3>제목</h3></label>
+                <p>{{ post.title }}</p>
+            </div>
+            <hr>
+            <div class="form-group">
+                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><label><h3>작성자</h3></label>
+                <p>{{ post.user_id }}</p>
+            </div>
+            <hr>
+
+            <div class="form-group">
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span><label><h3>작성날짜</h3></label>
+                <p>{{ post.date | date:"Y-m-d" }}</p>
+            </div>
+            <hr>
+
+            <div class="form-group">
+                <textarea class="form-control" rows="10" style="background-color: white"
+                          readonly>{{ post.content }}</textarea>
+                <a href="{% url "blog:post_community_admin" %}" class="btn btn-info pull-left">뒤로가기</a>
+                <input type="hidden" name="contenttext" value="" class="form-control"/>
+                <a onclick="admin()" class="btn btn-info pull-right">수정하기</a>
+            </div>
+            <div id="id" style="display: none">{{ post.update_counter }}</div>
+        </form>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    </body>
+{% endfor %}
+
+</html>
+
+
+
+
+
+

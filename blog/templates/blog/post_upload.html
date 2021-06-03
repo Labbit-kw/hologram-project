@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript">
+        function passwd() {
+            var data = prompt("관리자 패스워드 입력");
+            if (data == "root") {
+                return true;
+            } else {
+                alert("비밀번호가 다릅니다. 다시 입력해주세요.");
+                history.go(-1);
+                return false;
+            }
+        }
+    </script>
+
+    {% load staticfiles %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="update list">
+    <meta name="author" content="Project C team">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css"
+      href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic">
+    <script type="text/javascript" src="static/dist/js/site.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+{% block header %}
+    <div id="header">
+        <a href="{% url "base" %}"><button type="button" class="btn btn-primary btn-block">Home</button></a>
+    </div>
+{% endblock header %}
+
+{% block container %}
+    <div id="container" class="p-3 mb-2 bg-light text-dark">
+        <h1><span  class="list-group-item list-group-item-warning text-center">업로드 목록</span></h1>
+    <h4><span class="pull-left">업로드 수 : {{ uploadCount }}</span></h4>
+        <a href="{% url "blog:post_file_write" %}" class="btn btn-default pull-right">Upload</a>
+        <table class="table table-bordered"> <!-- 테이블 생성 -->
+            <thead>
+            <tr class="active">
+                <th class="text-center">제목</th>
+                <th class="text-center">파일이름</th>
+                <th class="text-center">파일크기</th>
+                <th class="text-center">다운로드 횟수</th>
+                <th class="text-center">날짜</th>
+                <th class="text-center">삭제</th>
+            </tr>
+            </thead>
+            {% for row in uploadList %}
+                <tr class="active text-center">
+                    <td>{{ row.title }}</td>
+                    <td>{% if row.filesize > 0 %}
+                        <a href="{% url "blog:post_file_download" row.id %}">{{ row.filename }}</a>
+                    {% endif %}
+                    </td>
+                    <td>{{ row.filesize }}byte</td>
+                    <td>{{ row.down }}</td>
+                    <td>{{ row.date | date:"Y-m-d" }}</td>
+                    <form method="post" action="{% url "blog:post_file_delete" row.id %}" onsubmit="return passwd()"
+                          enctype="multipart/form-data">{% csrf_token %}
+                        <td><input type="submit" value="삭제하기"></td>
+                    </form>
+                </tr>
+            {% endfor %}
+        </table>
+        <hr/>
+        <div class="text-center">
+            <ul class="pagination">
+                <div>
+                <span>
+                    {% if page_obj.has_previous %}
+                        <a class="btn btn-default pull-left" href="?page={{ page_obj.previous_page_number }}">이전 페이지</a>
+                    {% endif %}
+
+                    {{ page_obj.number }}{{ page_obj.paginator.num_pages }}
+
+                    {% if page_obj.has_next %}
+                        <a class="btn btn-default pull-right" href="?page={{ page_obj.next_page_number }}">다음 페이지</a>
+                    {% endif %}
+                </span>
+                </div>
+            </ul>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+{% endblock container %}
+</html>

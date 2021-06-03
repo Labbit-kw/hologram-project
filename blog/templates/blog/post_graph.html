@@ -1,0 +1,183 @@
+{% block header %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <div id="header" align="center">
+    <a href ="{% url "base" %}"><button type="button" class="btn btn-primary btn-block">HOME</button></a>
+    <label style="color: black; font-size: xx-large ; background-color: aquamarine" class="btn btn-info btn-block" ><a>통계</a></label>
+</div>
+{% endblock header %}
+
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript">
+
+    //성별
+    var manCount=0;
+    var womanCount=0;
+
+    //나이
+    var year10=0; var year20=0; var year30=0; var year40=0; var year50=0; var year60=0;
+
+    //관심분야
+    // 영화관 볼링장 당구장 PC방 오락실 카페
+    var movieTheaters=0; var bowlingClub=0; var billiardRoom=0; var pcRoom=0; var arcade=0; var cafe=0;
+
+
+    //주소
+    // 서울 경기권 강원권 충청권 경상권 전라권 제주권
+    var seoul=0; var gyeonggi=0; var gangwon=0; var chungcheong=0; var kyongsang=0; var jeonla=0; var jeju=0;
+
+
+    {% for row in graph %}
+
+    var checkSex = "{{ row.sex }}"; // 성별
+    var checkYear ="{{ row.year }}"; // 10대 ~ 60대
+    var checkInter ="{{ row.inter }}"; //관심분야
+    var checkAddress ="{{ row.address }}"; // 서울특별시 / 전라도 / 경상도 / 경기도 ..
+
+    // 성별 조사
+    if(checkSex == "man"){manCount+=1;} else{womanCount+=1;}
+
+    // 연령대 조사
+    if(checkYear == "10"){year10+=1;}else if(checkYear =="20"){year20+=1;}
+    else if(checkYear =="30"){year30+=1;}else if(checkYear =="40"){year40+=1;}
+    else if(checkYear =="60"){year20+=1;}else{year60+=1;}
+
+    //관심분야 개수 조사
+    if(checkInter == "영화관"){movieTheaters+=1;}else if(checkInter =="볼링장"){bowlingClub+=1;}
+    else if(checkInter =="당구장"){billiardRoom+=1;}else if(checkInter =="PC방"){pcRoom+=1;}
+    else if(checkInter =="오락실"){arcade+=1;}else{cafe+=1;}
+
+    //관심분야 개수 조사
+    if(checkAddress == "서울특별시"){seoul+=1;}else if(checkAddress =="경기도"||checkAddress =="인천광역시"){gyeonggi+=1;}
+    else if(checkAddress =="강원도"){gangwon+=1;}else if(checkAddress =="충청도"||checkAddress =="충청북도"||checkAddress =="충청남도"||checkAddress =="대전광역시"){chungcheong+=1;}
+    else if(checkAddress =="경상도"||checkAddress =="경상북도"||checkAddress =="경상남도"||checkAddress =="부산광역시"||checkAddress =="대구광역시"||checkAddress =="울산광역시"){kyongsang+=1;}
+    else if(checkAddress =="전라도"||checkAddress =="전라북도"||checkAddress =="전라남도"||checkAddress =="광주광역시"){jeonla+=1;}else{jeju+=1;}
+
+
+    {% endfor %}
+</script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['sex', 'count'],
+            ['남성', manCount],
+            ['여성', womanCount]
+        ]);
+
+        var options = {
+            title: '성별(SEX)',
+            width:1000,
+            height:900
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('pie_chart1'));
+
+        chart.draw(data, options);
+
+    }
+</script>
+
+<script type="text/javascript">
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+            ['age', 'count'],
+            ['10대', year10],
+            ['20대', year20],
+            ['30대', year30],
+            ['40대', year40],
+            ['50대', year50],
+            ['60대 이상', year60]
+        ]);
+
+        var options = {
+            title: '나이(AGE)',
+            width:1000,
+            height:900
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('pie_chart2'));
+
+        chart.draw(data, options);
+    }
+</script>
+
+<script type="text/javascript">
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+            ['address', 'count'],
+            ['서울', seoul],
+            ['경기권', gyeonggi],
+            ['강원권', gangwon],
+            ['충청권', chungcheong],
+            ['경상권', kyongsang],
+            ['전라권', jeonla],
+            ['제주권', jeju]
+        ]);
+
+        var options = {
+            title: '주소지(ADDRESS)',
+            width:1000,
+            height:900,
+
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('pie_chart3'));
+
+        chart.draw(data, options);
+    }
+</script>
+
+<script type="text/javascript">
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+            ['interest', 'count'],
+            ['영화관', movieTheaters],
+            ['볼링장', bowlingClub],
+            ['연극장', billiardRoom],
+            ['피시방', pcRoom],
+            ['스키장', arcade],
+            ['카페', cafe]
+        ]);
+
+        var options = {
+            title: '관심분야',
+            width:1000,
+            height:900
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('pie_chart4'));
+
+        chart.draw(data, options);
+    }
+</script>
+</head>
+
+<div id="container" align="center" style="font-size: x-large ; `float:center">
+    <br>
+    <div style="width: 2000px; height: 900px;">
+        <div id="pie_chart1" style=" float: left;"></div>
+        <div id="pie_chart2" style="float: right;"></div>
+    </div>
+</div>
+<div id="container" align="center" style="font-size: x-large">
+    <div style="width: 2000px; height: 900px;"  >
+        <div id="pie_chart3" style=" float: left;"></div>
+        <div id="pie_chart4" style=" float: right;"></div>
+    </div>
+</div>
+

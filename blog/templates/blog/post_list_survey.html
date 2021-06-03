@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<meta name="list_survey" author="Project C Team" charset="UTF-8">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="https://d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+
+{% block header %}
+    <div id="header">
+        <a href="{% url "base" %}">
+            <button type="button" class="btn btn-primary btn-block">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home
+            </button>
+        </a>
+    </div>
+{% endblock header %}
+
+<script type="text/javascript">
+    function doDisplay(page) {
+        viewIndex = page;
+        initialize(viewIndex);
+        if (page == 1) {
+            var con1 = document.getElementById("map_canvas1");
+            if (con1.style.display == 'none') {
+                con1.style.display = 'block';
+            } else {
+                con1.style.display = 'none';
+            }
+        }
+        if (page == 2) {
+            var con2 = document.getElementById("map_canvas2");
+            if (con2.style.display == 'none') {
+                con2.style.display = 'block';
+            } else {
+                con2.style.display = 'none';
+            }
+        }
+        if (page == 3) {
+            var con3 = document.getElementById("map_canvas3");
+            if (con3.style.display == 'none') {
+                con3.style.display = 'block';
+            } else {
+                con3.style.display = 'none';
+            }
+        }
+    }
+</script>
+
+<meta charset="UTF-8">
+<script>
+    var lat = new Array();
+    var lng = new Array();
+    var testArray = new Array();
+    var index = 0;
+    var pageIndex = 1;
+    var viewIndex = 1;
+    testArray[0] = "결과가 없습니다";
+    testArray[1] = "결과가 없습니다";
+    testArray[2] = "결과가 없습니다";
+</script>
+
+{% for data in datas %}
+    <script type="text/javascript">
+        lat[index] = ["{{ data.pop }}"]; // data리스트의 첫번째 값 추출 (lat : 위도)
+        lng[index] = ["{{ data.pop }}"];// data리스트의 두번째 값 추출 (lat : 경도))
+        testArray[index] = ["{{ data.pop }}"];
+        index += 1;
+    </script>
+{% endfor %}
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCD0-5CK38tyjCVHXBQMzf-8KRN2IpsHrM"
+        type="text/javascript"></script>
+<script type="text/javascript">
+    function initialize(viewIndex) {
+        var myLatlng = new google.maps.LatLng(lat[viewIndex - 1], lng[viewIndex - 1]);
+        var myOptions = {
+            zoom: 19,
+            center: myLatlng,
+            <!-- mapTypeId: google.maps.MapTypeId.TERRAIN -->
+        };
+        if (viewIndex == 1) {
+            var map = new google.maps.Map(document.getElementById("map_canvas1"), myOptions);
+        }
+        if (viewIndex == 2) {
+            var map = new google.maps.Map(document.getElementById("map_canvas2"), myOptions);
+        }
+        if (viewIndex == 3) {
+            var map = new google.maps.Map(document.getElementById("map_canvas3"), myOptions);
+        }
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            title: "view Map"
+        });
+        var infowindow = new google.maps.InfoWindow({
+            content: "Here"
+        });
+        infowindow.open(map, marker);
+    }
+
+    window.onload = function () {
+        initialize(viewIndex);
+    }
+
+</script>
+
+<body style="background-color: aliceblue">
+<h1><span class="list-group-item list-group-item-info text-center">설문조사</span></h1>
+<div id="result">
+    <table class="table table-bordered" style="font-size: large ;background-color: #F6F6F6">
+        <th>
+        <td colspan="2" align="left" style="padding-right: 100px; font-size: xx-large"><span
+                class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span> 결과
+        </td>
+        </th>
+
+        <tr>
+            <td width="200px" align="center" style="font-size: x-large">
+                <script>document.write(pageIndex)</script>
+            </td>
+            <td><a class="button" href="javascript:doDisplay(1);" id="1">
+                <script>document.getElementById("1").innerHTML = testArray[0];</script>
+            </a>
+                <div id="map_canvas1" style="display:none; width:30%; height:500px; margin:auto"></div>
+            </td>
+        </tr>
+        <tr>
+            <td width="200px" align="center" style="font-size: x-large">
+                <script>document.write(pageIndex + 1)</script>
+            </td>
+            <td><a class="button" href="javascript:doDisplay(2);" id="2">
+                <script>document.getElementById("2").innerHTML = testArray[1];</script>
+            </a>
+                <div id="map_canvas2" style="display:none; width:30%; height:500px; margin:auto"></div>
+            </td>
+        </tr>
+        <tr>
+            <td width="200px" align="center" style="font-size: x-large">
+                <script>document.write(pageIndex + 2)</script>
+            </td>
+            <td><a class="button" href="javascript:doDisplay(3);" id="3">
+                <script>document.getElementById("3").innerHTML = testArray[2];</script>
+            </a>
+                <div id="map_canvas3" style="display:none; width:30%; height:500px; margin:auto"></div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script>pageIndex += 1</script>
+<h1><span class="label label-default pull-right">
+    <a href="{% url 'blog:post_graph' %}" style="color: white">
+    <span class="glyphicon glyphicon-list-alt" aria-hidden="true" style="font-size: xx-large"></span>통계</a></span>
+</h1>
+</body>
+</html>

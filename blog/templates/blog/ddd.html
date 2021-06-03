@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}homepage{% endblock %}</title>
+
+    <meta name="description" content="main homepage">
+    <meta name="author" content="Project C team">
+   <!-- {#{% load staticfiles %}#} -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+</head>
+<body>
+<!-- {#{% block container %}#} -->
+    <body style="background-color:#BEF781">
+    <div class="container" >
+      <div class="masthead">
+        <h2 class="text-muted"><span class="label label-success"><a href="{% url 'base' %}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></span></h2>
+          <div style="text-align:right">
+ <p><span class="glyphicon glyphicon-music" aria-hidden="true"></span>*배경음악*<span class="glyphicon glyphicon-music" aria-hidden="true"></span></p>
+         <audio controls="controls">
+             <source src="Over_the_Horizon.mp3" type="audio/mp3"/>
+             <source src="Over_the_Horizon.mp3" type="audio/ogg"/>
+         </audio>
+          </div>
+        <nav>
+          <ul class="nav nav-justified">
+            <li class="active"><a href="{% url "blog:post_intro" %}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>홈페이지 소개</a></li>
+            <li><a href="{% url "blog:post_community_admin" %}"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>공지사항</a></li>
+              <li><a href="{% url "blog:post_community" %}"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>게시판</a></li>
+             <li><a href="{% url "blog:post_update" %}"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>업데이트 목록</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Jumbotron -->
+      <div class="jumbotron">
+        <h2>START NOW!!</h2>
+        <p class="lead">이용하는 방법 설명문</p>
+        <p><a class="btn btn-lg btn-success" href="{% url "blog:post_openSurvey" %}" role="button"><span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span>시작하기<span class="glyphicon glyphicon-hand-left" aria-hidden="true"></span></a></p>
+          <div class="container text-center">
+    <img src="jango.png" width="300" height="200">
+  </div>
+      </div>
+        <hr>
+        <div style=float:left;width:33%;">
+            <h2>HTML & CSS <span class="glyphicon glyphicon-search" aria-hidden="true"></span></h2>
+            : HTML과 CSS 웹페이지에서 정적인 요소를<br>
+              표현하는 언어이다.<br>
+              버튼이나 텍스트등의 요소 HTML로 표현되며<br>
+              해당 요소들의 색상이나 크기등은 CSS로 표현한다
+              <br>
+              <br>
+              <br>
+              <br>
+              <hr>
+   <h2>자바스크립트 <span class="glyphicon glyphicon-search" aria-hidden="true"></span></h2>
+              <h3>*특징*</h3>
+     1.패러다임:스크립트언어,객체 지향 프로그래밍,<br>
+                      함수형 프로그래밍, 사건 기반 프로그래밍<br>
+              <br>
+              2.발표년도: 1995년 12월 04일<br>
+              <br>
+              3.설계자: 브렌던 아이크<br>
+              <br>
+              4.개발자: 넷스케이프, 모질라재단<br>
+              <br>
+              5.영향을 받은 언어: 루아, 스킴, 펄, 셀프<br>
+                              자바, C, 파이썬<br>
+              <br>
+              6.사용중인 파일 확장지: .js , .mjs
+        </div>
+<div style=float:left;width:33%;">
+           <h2>Javascript <span class="glyphicon glyphicon-search" aria-hidden="true"></span></h2>
+               : Javascript는 웹페이지에서 사용자 동작을<br>
+                 정해진 로직에 따라 처리하는 언어이다.<br>
+                 또한 객체기반의 스크립트 프로그래밍 언어로서,<br>
+                 이 언어는 웹브라우저 내에서 주로 사용되며<br>
+                 다른 응용프로그램의 내장 객체에도 접근할수 있는<br>
+                 기능을 가지고 있다.
+                 <br>
+                 <br>
+                 <hr>
+            <h2>Django <span class="glyphicon glyphicon-search" aria-hidden="true"></span></h2>
+            <h3>*특징*</h3>
+            1.구성: 장고는 파이썬으로 코딩한 모델을<br>
+                    관계형 데이터베이스로 구성 해주는<br>
+                    모델(Model), HTTP요청을 처리하는<br>
+                    웹 템플릿 시스템인 뷰(View)로 분리해<br>
+                    URL의 라우팅을 처리하는 URL 컨트롤러<br>
+                    로 구성된 MVC 디자인 패턴을 따른다.<br>
+            <br>
+            2.모델: 모델은 데이터에 대한 정보를 담는다.<br>
+                    장고에서는 모델을 정의할때 필드의 종류를<br>
+                    지정해줘야 하는데, 이것이 데이터베이스에게<br>
+                    컬럼타입을 알려주고 HTML폼으로 표시될때의<br>
+                    입력타입도 내포하는 역할을 한다.<br>
+                    <br>
+            3.뷰:   어떤 데이터가 표시되는 지를 정의한다.<br>
+                    템플릿은 사용자에게 실제로 보여지는<br>
+                    웹페이지나 문서를 다룬다.
+</div>
+        <div style=float:left;width:33%;">
+            <h2>Django <span class="glyphicon glyphicon-search" aria-hidden="true"></span></h2>
+               : Django는 Python 기반의 네트워크 프레임워크로<br>
+                 데이터를 필요로 하거나, 서버의 자원을 필요로하는<br>
+                 사용자 요청을 서버에서 처리한다.
+                 또한 보안이 우수하고 유지보수가 편리하며<br>
+                 무료 오픈소스 인데다가, 활발한 커뮤니티 들이 있고<br>
+                 좋은 참고자료와 무료및 유료지원을 하는 옵션들이 제공된다.
+            <br>
+            <br>
+            <hr>
+   <p align="center"><h2>HTML <span class="glyphicon glyphicon-search" aria-hidden="true"></span></h2></p>
+    *개발*<br>
+    : 1980년, 유럽 입자 물리 연구소의 계약자였었던 물리학자 팀 버너스리가 HTML의 원형인 인콰이어를 제안했다.<br>
+      1989년에 팀 버너스리는 인터넷기반 하이퍼텍스트 체계를 제안하는 메모를 작성했다.<br>
+      1990년 말에 팀 버너스리는 HTML을 명시하고, 브라우저와 서버 소프트웨어를 작성했다.<br>
+    <br>
+    *속성*<br>
+    : 대부분의 요소 속성들은 이름-값 형태이고, "="로 구분하고, 요소의 시작태그 안에서 요소의 이름 다음에 쓰인다.<br>
+      값은 외따옴표 또는 쌍따옴표로 감쌀수있다.<br>
+    <br>
+   *데이터형식*<br>
+    : HTML은 스크립트 데이터와 스타일시트 데이터, 그리고 ID, 이름, URL, 숫자 길이와 단위, 언어, 색상, 문자<br>
+      등을 포함하는 속성 값의 종류를 위한 몇 가지 데이터형태를 정의 내린다.<br>
+</div>
+
+    </div> <!-- /container -->
+<!-- {#{% endblock container %}#} -->
+
+</body>
+</body>
+</html>
