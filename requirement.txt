@@ -2,3 +2,4 @@ python
 django
 numpy
 opencv-python (pip)
+pymysql (pip)
