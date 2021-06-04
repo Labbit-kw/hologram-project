@@ -39,24 +39,45 @@
             filter: FlipH;
         }
         #camera--trigger {
-            width: 180px;
+            width: 360px;
             color: white;
-            background-color: black;
-            font-size: 16px;
+            background-color: gray;
+            font-size: 35px;
             border-radius: 30px;
             border: none;
-            padding: 15px 20px;
+            padding: 35px 20px;
             text-align: center;
             box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0, 0.2);
             position: fixed;
-            bottom: 30px;
-            left: calc(50% - 90px);
+            bottom: 60px;
+            left: calc(50% - 270px);
         }
         .taken {
             height: 140px !important;
             width: 220px !important;
             border: solid 2px rgb(121, 200, 253);
         }
+
+        #camera--capture {
+            width: 140px;
+            color: white;
+            background-color: black;
+            font-size: 35px;
+            border-radius: 30px;
+            border: none;
+            padding: 35px 20px;
+            text-align: center;
+            box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0, 0.2);
+            position: fixed;
+            bottom: 60px;
+            left: calc(80% - 90px);
+        }
+        .taken {
+            height: 140px !important;
+            width: 220px !important;
+            border: solid 2px rgb(121, 200, 253);
+        }
+
     </style>
 </head>
 <body>
@@ -84,8 +105,13 @@
         <button id="camera--trigger">사진촬영</button>
         </a>
         -->
-        <form action="{% url "blog:TEST" %}" method='POST'>{% csrf_token %}
+
+
+
         <button id="camera--trigger">사진촬영</button>
+
+        <form action="{% url "blog:TEST" %}" method='POST'>{% csrf_token %}
+            <button id="camera--capture">전송</button>
             <input type="hidden" name="result_data" value="" id="js_data_input">
         </form>
 
@@ -94,7 +120,7 @@
 
     <script>
         var front = true;
-
+        var imgList = [];
 
         let constraints = { video: { facingMode: (front? "user" : "environment") } };
         //let constraints = { video: { facingMode: "user" }, audio: false };
@@ -145,7 +171,8 @@
             camera_src = cameraSensor.toDataURL("image/png");
             cameraOutput.classList.add("taken");
             console.log(cameraView.srcObject);
-            document.getElementById("js_data_input").value = camera_src;
+            imgList.push(camera_src);
+            document.getElementById("js_data_input").value = imgList;
 
 
 

@@ -213,20 +213,29 @@ def TEST(request):
     # return HttpResponseRedirect('/create/')  # 데이터가 유효하지 않으면 되돌아갑니다.
 
     data = form['result_data']
+
     data = data.split(',')
-    data = data[1]
-    data = base64.b64decode(data)
+    data_list = []
+
+    for i in range(1, len(data),2):
+        data_list.append(base64.b64decode(data[i]))
+
+
 
     sql_query = 'INSERT INTO image (name, image) VALUE (%s, %s)'
 
     connector = pymysql.connect(user='root', password='1234', host='127.0.0.1', database='test')
     cursor = connector.cursor()
-    cursor.execute(sql_query, ('test_image', data))
+    for k in range(len(data_list)):
+        cursor.execute(sql_query, (str(k)+'_image', data_list[k]))
     connector.commit()
     connector.close()
 
-    with open("imageToSave.png", "wb") as fh:
-        fh.write(data)
+    for j in range(len(data_list)):
+        with open(str(j)+"_img.png", "wb") as fh:
+            fh.write(data_list[j])
+
+
 
     return render(request, 'blog/camera_ok.html')
 

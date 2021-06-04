@@ -18,7 +18,7 @@ SECRET_KEY = '$gi^1=&1=+(g$)shk0tjp)6d#iomls+-317c!k+509dgq2xd$p'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']  # 비어있으면 127.0.0.1
-
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880 * 10
 # Application definition
 
 INSTALLED_APPS = [
