@@ -5,7 +5,7 @@ app_name = 'blog' # namespace 에러가 발생할 때 자신의 urls.py에서 �
 
 urlpatterns = [
     # /blog/
-    path('post/Admincommunity2',TEST, name='TEST'),
+    path('post/Admincommunity2', saveDB, name='saveToDB'),
 
 ]
 

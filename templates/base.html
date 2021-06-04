@@ -110,7 +110,7 @@
 
         <button id="camera--trigger">사진촬영</button>
 
-        <form action="{% url "blog:TEST" %}" method='POST'>{% csrf_token %}
+        <form action="{% url "blog:saveToDB" %}" method='POST'>{% csrf_token %}
             <button id="camera--capture">전송</button>
             <input type="hidden" name="result_data" value="" id="js_data_input">
         </form>

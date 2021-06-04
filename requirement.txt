@@ -3,3 +3,7 @@ django
 numpy
 opencv-python (pip)
 pymysql (pip)
+pillow
+
+ngrok 실행 방법
+start ngrok http 8000
