@@ -1,5 +1,6 @@
 # Project ignores
 .idea/
+result/
 debug.py
 
 # Byte-compiled / optimized / DLL files
