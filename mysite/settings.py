@@ -17,7 +17,7 @@ SECRET_KEY = '$gi^1=&1=+(g$)shk0tjp)6d#iomls+-317c!k+509dgq2xd$p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []  # 비어있으면 127.0.0.1
+ALLOWED_HOSTS = ['*']  # 비어있으면 127.0.0.1
 
 # Application definition
 
@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
     'django.contrib.sites',
+    'django_extensions',
+    'sslserver'
 
 ]
 

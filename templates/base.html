@@ -63,6 +63,12 @@
     <div id="header">
         <h3>Simple Web Camera</h3>
         <p>버튼을 클릭 하세요.</p>
+        <canvas id="canvas"></canvas>
+<div style="display:none;">
+  <img id="source"
+       src="https://mdn.mozillademos.org/files/5397/rhino.jpg"
+       width="300" height="227">
+</div>
     </div>
 
     <!-- main 태그는 문서의 주요 내용을 담는 태그이다. 한 문서에 한개 존재 해야 한다.
@@ -87,17 +93,24 @@
     </main>
 
     <script>
-        let constraints = { video: { facingMode: "user" }, audio: false };
+        var front = true;
+
+
+        let constraints = { video: { facingMode: (front? "user" : "environment") } };
+        //let constraints = { video: { facingMode: "user" }, audio: false };
         const cameraView = document.querySelector("#camera--view");
         const cameraOutput = document.querySelector("#camera--output");
         const cameraSensor = document.querySelector("#camera--sensor");
         const cameraTrigger = document.querySelector("#camera--trigger");
 
-        function cameraStart() {
+        const image = document.getElementById('source');
+
+        window.onload = function cameraStart() {
             navigator.mediaDevices.getUserMedia(constraints)
                 .then(function (stream) {
                     track = stream.getTracks()[0];
                     cameraView.srcObject = stream;
+
 
                 })
                 .catch(function (error) {
