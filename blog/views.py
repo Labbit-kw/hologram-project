@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
 import base64
+import os
 import pymysql
+
 
 def saveDB(request):
     form = request.POST
@@ -20,13 +22,10 @@ def saveDB(request):
         index = j//2
         cursor.execute(sql_query, (str(index)+'_image', data[j]))
 
-        with open(str(index)+"_img.png", "wb") as fh:
+        with open(os.path.join('result', f'{str(index)}_img.png'), "wb") as fh:
             fh.write(data[j])
 
     connector.commit()
     connector.close()
 
     return render(request, 'blog/camera_ok.html')
-
-
-
