@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -202,7 +203,8 @@ def ajax_test(request):
                   )
 
 import base64
-
+import re
+import html
 def TEST(request):
     print("test ok")
 
@@ -231,10 +233,21 @@ def TEST(request):
     # if form.is_valid():  # 데이터가 form 클래스에서 정의한 조건 (max_length 등)을 만족하는지 체크합니다.
     #     return render(request, 'second/confirm.html', {'form': form})
     # return HttpResponseRedirect('/create/')  # 데이터가 유효하지 않으면 되돌아갑니다.
-    print(form['result_data'])
 
-    pngraw = base64.decodestring(form['result_data'])
-    print(pngraw)
+    data = form['result_data']
+    data = data.split(',')
+    data = data[1]
+
+    #imgdata = base64.b64decode(data)
+
+    with open("imageToSave.png", "wb") as fh:
+        fh.write(base64.b64decode(data))
+
+
+
+
+
+
     return render(request,
                   'blog/camera_ok.html',
                   )

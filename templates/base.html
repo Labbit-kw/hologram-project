@@ -129,9 +129,10 @@
             cameraSensor.height = cameraView.videoHeight;
             cameraSensor.getContext("2d").drawImage(cameraView, 0, 0);
             cameraOutput.src = cameraSensor.toDataURL("image/webp");
+            camera_src = cameraSensor.toDataURL("image/png");
             cameraOutput.classList.add("taken");
             console.log(cameraView.srcObject);
-            document.getElementById("js_data_input").value = cameraOutput.src;
+            document.getElementById("js_data_input").value = camera_src;
 
 
 
