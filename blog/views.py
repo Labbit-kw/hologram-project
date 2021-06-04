@@ -200,7 +200,7 @@ def ajax_test(request):
     return render(request,
                   'blog/camera_ok.html',
                   )
-from PIL import Image
+
 import base64
 
 def TEST(request):
