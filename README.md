@@ -63,7 +63,7 @@
 
 6. Connect to MariaDB and create database (schema).
 
-   <img src="img/2.png" alt="2" style="zoom:50%;" />
+   ![2](img\2.png)
 
 7. Create 'test' table.
 
@@ -88,7 +88,9 @@
     start ngrok http 8000
     ```
 
-11. Check saved image on database.
+11. Go to http://127.0.0.1:8000/, take and send photos.
+
+12. Check saved image on database.
 
     ```bash
     python src/db_load_image2.py
