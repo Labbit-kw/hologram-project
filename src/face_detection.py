@@ -7,7 +7,7 @@ capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 while cv2.waitKey(33) < 0:
     ret, frame = capture.read()
     frame_gs = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    cascade = cv2.CascadeClassifier("haarcascade_frontalface_alt.xml")
+    cascade = cv2.CascadeClassifier("../res/haarcascade_frontalface_alt.xml")
 
     # 얼굴 인식 실행하기
     face_list = cascade.detectMultiScale(frame_gs, scaleFactor=1.1, minNeighbors=1, minSize=(100, 100))
