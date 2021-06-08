@@ -2,7 +2,7 @@
 const recordButton = document.querySelector(".record-button")
 const stopButton = document.querySelector(".stop-button")
 const playButton = document.querySelector(".play-button")
-const downloadButoon = document.querySelector(".download-button")
+const downloadButton = document.querySelector(".download-button")
 
 // 비디오 플레이어
 const previewPlayer = document.querySelector("#preview")
@@ -30,13 +30,15 @@ function startRecording(stream){
  function stopRecording(){
     previewPlayer.srcObject.getTracks().forEach(track => track.stop()) //배열이기 때문에 이렇게 사용 16:40초 내용 언급
     recorder.stop();
-
  }
 
  function playRecording(){
     const recordedBlob = new Blob(recordedChunks, {type: "video/webm"}); // 파라미터 : (비디오 데이터가 담긴 배열, 확장자)
     recordingPlayer.src = URL.createObjectURL(recordedBlob);
     recordingPlayer.play();
+    downloadButton.href = recordingPlayer.src;
+    downloadButton.download = `recording_${new Date()}.webm`;
+
  }
 
 // 이벤트 처리

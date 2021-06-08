@@ -1,5 +1,6 @@
 import os
-
+import mimetypes
+mimetypes.add_type("text/css", ".css", True)
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -17,6 +18,9 @@ SECRET_KEY = '$gi^1=&1=+(g$)shk0tjp)6d#iomls+-317c!k+509dgq2xd$p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+WHITENOISE_MIMETYPES = {
+    '.xsl': 'application/xml'
+}
 ALLOWED_HOSTS = ['*']  # 비어있으면 127.0.0.1
 DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880 * 10
 # Application definition
@@ -124,3 +128,4 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join('static'),)  # 정적 파일이 있는 위치
+
