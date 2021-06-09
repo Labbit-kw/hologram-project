@@ -56,8 +56,6 @@
     function toggleStream() {
         if (streaming === false) {
             navigator.getUserMedia(constraints, successCallback, errorCallback);
-            document.getElementById('toggleStream').innerHTML = 'Stream 비활성화';
-            document.getElementById('record').style.visibility = 'visible';
         }
         else {
             const stream = video.srcObject;
@@ -73,6 +71,8 @@
 
     let src, cap;
     function record() {
+        document.getElementById('toggleStream').disabled = true
+        document.getElementById('record').disabled = true
         src = new cv.Mat(height, width, cv.CV_8UC4);
         cap = new cv.VideoCapture('video');
         setTimeout(process, 33);
