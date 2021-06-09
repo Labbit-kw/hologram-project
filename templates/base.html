@@ -9,7 +9,7 @@
     <button id="cvtGray" onclick="cvtGray()" style="visibility: hidden;">Convert to Gray</button>
 
     <form action="{% url "blog:saveToDB" %}" method='POST'>{% csrf_token %}
-        <button onclick="sendData()">전송</button>
+        <button id="send" onclick="sendData()">전송</button>
         <input type="hidden" name="result_data" value="" id="js_data_input">
     </form>
     <br>
@@ -99,6 +99,7 @@
     }
 
     function sendData() {
+        document.getElementById("send").style.visibility = "hidden"
         document.getElementById("js_data_input").value = list
     }
 </script>
