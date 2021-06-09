@@ -2,7 +2,10 @@ import os
 import mimetypes
 mimetypes.add_type("text/css", ".css", True)
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# 기존
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # 한국 날짜 포멧 설정
 from django.conf.locale.ko import formats as ko_formats
@@ -16,7 +19,7 @@ ko_formats.DATETIME_FORMAT = 'Y-m-d G:i:s'
 SECRET_KEY = '$gi^1=&1=+(g$)shk0tjp)6d#iomls+-317c!k+509dgq2xd$p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 WHITENOISE_MIMETYPES = {
     '.xsl': 'application/xml'
@@ -126,6 +129,10 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join('static'),)  # 정적 파일이 있는 위치
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = (os.path.join('static'),)  # 정적 파일이 있는 위치
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
+STATIC_URL = '/static/'

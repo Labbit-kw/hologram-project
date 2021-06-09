@@ -52,6 +52,10 @@
             <button class="stop-button">중지</button>
             <button class="play-button">녹화보기</button>
             <a class="download-button">다운로드</a>
+            <form action="{% url "blog:saveToDB" %}" method='POST'>{% csrf_token %}
+                <button>전송</button>
+            <input type="hidden" name="result_data" value="" id="js_data_input">
+        </form>
         </div>
         <div class="video-container">
             <div class="video-item">
@@ -77,8 +81,8 @@
     const recordingPlayer = document.querySelector("#recording")
 
     let recorder;
-    let recordedChunks; // 데이터 담는 용도
-
+    var recordedChunks = []; // 데이터 담는 용도
+    var wavfromblob;
     // functions
     function videoStart(){
         navigator.mediaDevices.getUserMedia({ video: true, audio: true})
@@ -101,11 +105,22 @@
      }
 
      function playRecording(){
-        const recordedBlob = new Blob(recordedChunks, {type: "video/webm"}); // 파라미터 : (비디오 데이터가 담긴 배열, 확장자)
+
+
+        const recordedBlob = new Blob(recordedChunks, {type: "video/mp4"}); // 파라미터 : (비디오 데이터가 담긴 배열, 확장자)
+
         recordingPlayer.src = URL.createObjectURL(recordedBlob);
+
+
+
+        console.log(recordingPlayer.src)
+        document.getElementById("js_data_input").value = recordingPlayer.src;
         recordingPlayer.play();
         downloadButton.href = recordingPlayer.src;
-        downloadButton.download = `recording_${new Date()}.webm`;
+
+        downloadButton.download = `recording_${new Date()}.mp4`;
+
+
 
      }
 
