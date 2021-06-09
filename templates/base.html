@@ -9,7 +9,7 @@
     <button id="cvtGray" onclick="cvtGray()" style="visibility: hidden;">Convert to Gray</button>
 
     <form action="{% url "blog:saveToDB" %}" method='POST'>{% csrf_token %}
-        <button>전송</button>
+        <button onclick="sendData()">전송</button>
         <input type="hidden" name="result_data" value="" id="js_data_input">
     </form>
     <br>
@@ -37,7 +37,8 @@
     };
     const video = document.getElementById("video");
     const canvas = document.getElementById('output');
-    canvas.width = width; canvas.height = height;
+    canvas.width = width;
+    canvas.height = height;
 
     const cameraSensor = document.querySelector("#camera--sensor");
 
@@ -79,7 +80,6 @@
     }
 
     var list = [];
-    document.getElementById("js_data_input").value = [];
     function process() {
         if (streaming === true) {
             cap.read(src);
@@ -91,11 +91,15 @@
             canvas.getContext("2d").drawImage(video, 0, 0);
 
             list.push(canvas.toDataURL("image/png"));
-            document.getElementById("js_data_input").value = list
+
 
             //console.log(src)
             setTimeout(process, 33);
         }
+    }
+
+    function sendData() {
+        document.getElementById("js_data_input").value = list
     }
 </script>
 </html>
