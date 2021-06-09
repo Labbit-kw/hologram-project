@@ -51,7 +51,7 @@
             <button class="record-button">녹화</button>
             <button class="stop-button">중지</button>
             <button class="play-button">녹화보기</button>
-            <a class="download-button">다운로드</a>
+            <a class="download-button" target="_blank">다운로드</a>
             <form action="{% url "blog:saveToDB" %}" method='POST'>{% csrf_token %}
                 <button>전송</button>
             <input type="hidden" name="result_data" value="" id="js_data_input">

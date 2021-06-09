@@ -3,7 +3,7 @@ from django.shortcuts import render
 import base64
 import os
 import pymysql
-from bs4 import BeautifulSoup
+
 import requests
 import re
 import cv2
