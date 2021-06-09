@@ -6,7 +6,7 @@
 <script async src="https://docs.opencv.org/3.4/opencv.js"></script>
 <body onload="setSize()">
     <button id="toggleStream" onclick="toggleStream()">Stream 활성화</button>
-    <button id="cvtGray" onclick="cvtGray()" style="visibility: hidden;">녹화</button>
+    <button id="record" onclick="record()" style="visibility: hidden;">녹화</button>
 
     <form action="{% url "blog:saveToDB" %}" method="POST">{% csrf_token %}
         <button id="send" onclick="sendData()">전송</button>
@@ -44,6 +44,8 @@
         video.width = width; video.height = height;//prevent Opencv.js error.
         video.srcObject = stream;
         video.play();
+        document.getElementById('toggleStream').innerHTML = 'Stream 비활성화';
+        document.getElementById('record').style.visibility = 'visible';
     }
 
     function errorCallback(error) {
@@ -55,7 +57,7 @@
         if (streaming === false) {
             navigator.getUserMedia(constraints, successCallback, errorCallback);
             document.getElementById('toggleStream').innerHTML = 'Stream 비활성화';
-            document.getElementById('cvtGray').style.visibility = 'visible';
+            document.getElementById('record').style.visibility = 'visible';
         }
         else {
             const stream = video.srcObject;
@@ -64,13 +66,13 @@
                 track.stop();
             });
             document.getElementById('toggleStream').innerHTML = 'Stream 활성화';
-            document.getElementById('cvtGray').style.visibility = 'hidden';
+            document.getElementById('record').style.visibility = 'hidden';
         }
         streaming = !streaming;
     }
 
     let src, cap;
-    function cvtGray() {
+    function record() {
         src = new cv.Mat(height, width, cv.CV_8UC4);
         cap = new cv.VideoCapture('video');
         setTimeout(process, 33);
