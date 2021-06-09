@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Opencv.js tutorial</title>
 </head>
 <script async src="https://docs.opencv.org/3.4/opencv.js"></script>
-<!--script async src="./opencv.js"></script-->
-
 <body onload="setSize()">
     <button id="toggleStream" onclick="toggleStream()">Play</button>
     <button id="cvtGray" onclick="cvtGray()" style="visibility: hidden;">Convert to Gray</button>
@@ -15,8 +12,6 @@
         <button>전송</button>
         <input type="hidden" name="result_data" value="" id="js_data_input">
     </form>
-
-
     <br>
     <br>
     <video id="video"></video>
@@ -27,7 +22,7 @@
     let width, height;
 
     function setSize() {
-        if (window.orientation == 0) {
+        if (window.orientation === 0) {
             //portrait
             width = 480; height = 640;
         }
@@ -95,9 +90,6 @@
             canvas.height = video.height;
             canvas.getContext("2d").drawImage(video, 0, 0);
 
-
-
-
             list.push(canvas.toDataURL("image/png"));
             document.getElementById("js_data_input").value = list
 
@@ -106,5 +98,4 @@
         }
     }
 </script>
-
 </html>
