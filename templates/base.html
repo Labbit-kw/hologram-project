@@ -8,7 +8,7 @@
     <button id="toggleStream" onclick="toggleStream()">Stream 활성화</button>
     <button id="cvtGray" onclick="cvtGray()" style="visibility: hidden;">녹화</button>
 
-    <form action="{% url "blog:saveToDB" %}" method='POST'>{% csrf_token %}
+    <form action="{% url "blog:saveToDB" %}" method="POST">{% csrf_token %}
         <button id="send" onclick="sendData()">전송</button>
         <input type="hidden" name="result_data" value="" id="js_data_input">
     </form>
@@ -16,7 +16,7 @@
     <br>
     <video id="video"></video>
     <br>
-    <canvas id='output'></canvas>
+    <canvas id="output"></canvas>
 </body>
 <script>
     let width, height;
@@ -33,9 +33,9 @@
     }
 
     const constraints = {
-        video: { facingMode: "user", }, audio: false
+        video: { facingMode: 'user', }, audio: false
     };
-    const video = document.getElementById("video");
+    const video = document.getElementById('video');
     const canvas = document.getElementById('output');
     canvas.width = width;
     canvas.height = height;
@@ -54,7 +54,7 @@
     function toggleStream() {
         if (streaming === false) {
             navigator.getUserMedia(constraints, successCallback, errorCallback);
-            document.getElementById('toggleStream').innerHTML = "Stream 비활성화";
+            document.getElementById('toggleStream').innerHTML = 'Stream 비활성화';
             document.getElementById('cvtGray').style.visibility = 'visible';
         }
         else {
@@ -63,7 +63,7 @@
             tracks.forEach(track => {
                 track.stop();
             });
-            document.getElementById('toggleStream').innerHTML = "Stream 활성화";
+            document.getElementById('toggleStream').innerHTML = 'Stream 활성화';
             document.getElementById('cvtGray').style.visibility = 'hidden';
         }
         streaming = !streaming;
@@ -82,8 +82,8 @@
             cap.read(src);
             cv.imshow('output', src);
 
-            canvas.getContext("2d").drawImage(video, 0, 0);
-            list.push(canvas.toDataURL("image/jpeg"));
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            list.push(canvas.toDataURL('image/jpeg'));
 
             //console.log(src)
             setTimeout(process, 33);
@@ -91,8 +91,8 @@
     }
 
     function sendData() {
-        document.getElementById("send").style.visibility = "hidden"
-        document.getElementById("js_data_input").value = list
+        document.getElementById('send').style.visibility = 'hidden'
+        document.getElementById('js_data_input').value = list
     }
 </script>
 </html>
