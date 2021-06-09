@@ -5,8 +5,8 @@
 </head>
 <script async src="https://docs.opencv.org/3.4/opencv.js"></script>
 <body onload="setSize()">
-    <button id="toggleStream" onclick="toggleStream()">Play</button>
-    <button id="cvtGray" onclick="cvtGray()" style="visibility: hidden;">Convert to Gray</button>
+    <button id="toggleStream" onclick="toggleStream()">Stream 활성화</button>
+    <button id="cvtGray" onclick="cvtGray()" style="visibility: hidden;">녹화</button>
 
     <form action="{% url "blog:saveToDB" %}" method='POST'>{% csrf_token %}
         <button id="send" onclick="sendData()">전송</button>
@@ -54,7 +54,7 @@
     function toggleStream() {
         if (streaming === false) {
             navigator.getUserMedia(constraints, successCallback, errorCallback);
-            document.getElementById('toggleStream').innerHTML = "Stop";
+            document.getElementById('toggleStream').innerHTML = "Stream 비활성화";
             document.getElementById('cvtGray').style.visibility = 'visible';
         }
         else {
@@ -63,7 +63,7 @@
             tracks.forEach(track => {
                 track.stop();
             });
-            document.getElementById('toggleStream').innerHTML = "Play";
+            document.getElementById('toggleStream').innerHTML = "Stream 활성화";
             document.getElementById('cvtGray').style.visibility = 'hidden';
         }
         streaming = !streaming;
