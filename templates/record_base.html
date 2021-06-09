@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="'viewport" content="width=device-width, inital-scale=1.0">
+    <title>Video Capture</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html, body {
+            height: 100%;
+        }
+        .wrapper {
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .video-container {
+            display: flex;
+            width: 550px;
+            padding: 1rem;
+            justify-content: space-around;
+        }
+        .video-item > h2 {
+            text-align: center;
+        }
+        .video-item > video {
+            border: 1px solid red;
+            width: 550px;
+            height: 550px;
+        }
+        button, a {
+            border: none;
+            font-size: 14px;
+            background: #ccc;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="button-container">
+            <button class="record-button">녹화</button>
+            <button class="stop-button">중지</button>
+            <button class="play-button">녹화보기</button>
+            <a class="download-button" target="_blank">다운로드</a>
+            <form action="{% url "blog:saveToDB" %}" method='POST'>{% csrf_token %}
+                <button>전송</button>
+                <input type="hidden" name="result_data" value="" id="js_data_input">
+            </form>
+        </div>
+        <div class="video-container">
+            <div class="video-item">
+                <h2>미리보기</h2>
+                <video autoplay muted id="preview"></video>
+            </div>
+            <div class="video-item">
+                <h2>미리보기</h2>
+                <video id="recording"></video>
+            </div>
+        </div>
+    </div>
+    <script>
+        // DOM
+        const recordButton = document.querySelector(".record-button")
+        const stopButton = document.querySelector(".stop-button")
+        const playButton = document.querySelector(".play-button")
+        const downloadButton = document.querySelector(".download-button")
+
+        // 비디오 플레이어
+        const previewPlayer = document.querySelector("#preview")
+        const recordingPlayer = document.querySelector("#recording")
+
+        let recorder;
+        var recordedChunks = []; // 데이터 담는 용도
+        var wavfromblob;
+
+        function videoStart(){
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true}).then(
+                stream => {
+                    previewPlayer.srcObject = stream;
+                    startRecording(previewPlayer.captureStream())
+                }
+            )
+        }
+
+        function startRecording(stream){
+            recordedChunks = [];
+            recorder = new MediaRecorder(stream);
+            recorder.ondataavailable = (e) => { recordedChunks.push(e.data)}; // 이벤트에 데이터를 담아서 . 녹화된 내용이 여기에 담김
+            recorder.start();
+         }
+
+        function stopRecording(){
+            previewPlayer.srcObject.getTracks().forEach(track => track.stop()) //배열이기 때문에 이렇게 사용 16:40초 내용 언급
+            recorder.stop();
+        }
+
+        function playRecording(){
+            const recordedBlob = new Blob(recordedChunks, {type: "video/mp4"}); // 파라미터 : (비디오 데이터가 담긴 배열, 확장자)
+            recordingPlayer.src = URL.createObjectURL(recordedBlob);
+            console.log(recordingPlayer.src)
+            document.getElementById("js_data_input").value = recordingPlayer.src;
+            recordingPlayer.play();
+            downloadButton.href = recordingPlayer.src;
+            downloadButton.download = 'recording.mp4';
+        }
+
+        // 이벤트 처리
+        recordButton.addEventListener("click", videoStart);
+        stopButton.addEventListener("click", stopRecording);
+        playButton.addEventListener("click", playRecording);
+    </script>
+</body>
+</html>
