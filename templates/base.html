@@ -40,8 +40,6 @@
     canvas.width = width;
     canvas.height = height;
 
-    const cameraSensor = document.querySelector("#camera--sensor");
-
     function successCallback(stream) {
         video.width = width; video.height = height;//prevent Opencv.js error.
         video.srcObject = stream;
