@@ -71,10 +71,9 @@
         streaming = !streaming;
     }
 
-    let src, dist, cap;
+    let src, cap;
     function cvtGray() {
         src = new cv.Mat(height, width, cv.CV_8UC4);
-        dst = new cv.Mat(height, width, cv.CV_8UC4);
         cap = new cv.VideoCapture('video');
         setTimeout(process, 33);
     }
@@ -83,13 +82,9 @@
     function process() {
         if (streaming === true) {
             cap.read(src);
-
             cv.imshow('output', src);
 
-            canvas.width = video.width; //640으로 정해져서 나오네?
-            canvas.height = video.height;
             canvas.getContext("2d").drawImage(video, 0, 0);
-
             list.push(canvas.toDataURL("image/jpeg"));
 
             //console.log(src)
