@@ -10,6 +10,12 @@
 <body onload="setSize()">
     <button id="toggleStream" onclick="toggleStream()">Play</button>
     <button id="cvtGray" onclick="cvtGray()" style="visibility: hidden;">Convert to Gray</button>
+
+    <form action="{% url "blog:saveToDB" %}" method='POST'>{% csrf_token %}
+        <button>전송</button>
+        <input type="hidden" name="result_data" value="" id="js_data_input">
+    </form>
+
     <br>
     <br>
     <video id="video"></video>
@@ -69,17 +75,22 @@
     let src, dist, cap;
     function cvtGray() {
         src = new cv.Mat(height, width, cv.CV_8UC4);
-        dst = new cv.Mat(height, width, cv.CV_8UC1);
+        dst = new cv.Mat(height, width, cv.CV_8UC4);
         cap = new cv.VideoCapture('video');
         setTimeout(process, 33);
     }
 
+    document.getElementById("js_data_input").value = [];
+
     function process() {
         if (streaming === true) {
             cap.read(src);
-            cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
-            cv.imshow('output', dst);
 
+            cv.imshow('output', src);
+
+            document.getElementById("js_data_input").value.push(src.toDataURL("image/png"));
+
+            console.log(src)
             setTimeout(process, 33);
         }
     }
