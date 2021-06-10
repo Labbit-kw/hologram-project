@@ -1,22 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="'viewport" content="width=device-width, inital-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html, body {
+            height: 100%;
+        }
+        .wrapper {
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .video-container{
+            display: flex;
+            width: 550px;
+
+            justify-content: space-around;
+        }
+        .video-item > h2 {
+            text-align: center;
+        }
+        .video-item > video {
+            border: 1px solid red;
+            width: 640px;
+            height: 480px;
+        }
+        .video-item > canvas {
+            border: 1px solid red;
+            width: 640px;
+            height: 480px;
+        }
+        button, a{
+            border: none;
+            font-size: 14px;
+            background: #ccc;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+        }
+    </style>
     <title>Opencv.js tutorial</title>
 </head>
 <script async src="https://docs.opencv.org/3.4/opencv.js"></script>
 <body onload="setSize()">
-    <button id="toggleStream" onclick="toggleStream()">Stream 활성화</button>
-    <button id="record" onclick="record()" style="visibility: hidden;">녹화</button>
+    <div class="wrapper">
+        <button id="toggleStream" onclick="toggleStream()">Stream 활성화</button>
+        <button id="record" onclick="record()" style="visibility: hidden;">녹화</button>
 
-    <form action="{% url "blog:saveToDB" %}" method="POST">{% csrf_token %}
-        <button id="send" onclick="sendData()">전송</button>
-        <input type="hidden" name="result_data" value="" id="js_data_input">
-    </form>
-    <br>
-    <br>
-    <video id="video"></video>
-    <br>
-    <canvas id="output"></canvas>
+        <form action="{% url "blog:saveToDB" %}" method="POST">{% csrf_token %}
+            <button id="send" onclick="sendData()">전송</button>
+            <input type="hidden" name="result_data" value="" id="js_data_input">
+        </form>
+
+
+        <div class="video-container">
+            <div class="video-item">
+                <h2>미리보기</h2>
+                <video autoplay muted id="video"></video>
+            </div>
+            <div class="video-item">
+                <h2>녹화영상</h2>
+            <canvas id="output"></canvas>
+            </div>
+        </div>
+    </div>
 </body>
 <script>
     let width, height;
@@ -28,6 +82,7 @@
         }
         else {
             //landscape
+
             width = 640; height = 480;
         }
     }
