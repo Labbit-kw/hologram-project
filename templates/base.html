@@ -52,13 +52,12 @@
 <body onload="setSize()">
     <div class="wrapper">
         <button id="toggleStream" onclick="toggleStream()">Stream 활성화</button>
-        <button id="record" onclick="record()" style="visibility: hidden;">녹화</button>
+        <button id="record" onclick="record()" disabled>녹화</button>
 
         <form action="{% url "blog:saveToDB" %}" method="POST">{% csrf_token %}
-            <button id="send" onclick="sendData()">전송</button>
+            <button id="send" onclick="sendData()" disabled>전송</button>
             <input type="hidden" name="result_data" value="" id="js_data_input">
         </form>
-
 
         <div class="video-container">
             <div class="video-item">
@@ -82,7 +81,6 @@
         }
         else {
             //landscape
-
             width = 640; height = 480;
         }
     }
@@ -90,60 +88,61 @@
     const constraints = {
         video: { facingMode: 'user', }, audio: false
     };
-    const video = document.getElementById('video');
-    const canvas = document.getElementById('output');
-    canvas.width = width;
-    canvas.height = height;
+    const video = document.getElementById('video')
+    const canvas = document.getElementById('output')
+    canvas.width = width
+    canvas.height = height
 
     function successCallback(stream) {
-        video.width = width; video.height = height;//prevent Opencv.js error.
-        video.srcObject = stream;
-        video.play();
-        document.getElementById('toggleStream').innerHTML = 'Stream 비활성화';
-        document.getElementById('record').style.visibility = 'visible';
+        video.width = width; video.height = height  //prevent Opencv.js error.
+        video.srcObject = stream
+        video.play()
+        document.getElementById('toggleStream').innerHTML = 'Stream 비활성화'
+        document.getElementById('record').disabled = false
     }
 
     function errorCallback(error) {
-        console.log(error);
+        console.log(error)
     }
 
     let streaming = false;
     function toggleStream() {
         if (streaming === false) {
-            navigator.getUserMedia(constraints, successCallback, errorCallback);
+            navigator.getUserMedia(constraints, successCallback, errorCallback)
         }
         else {
-            const stream = video.srcObject;
-            const tracks = stream.getTracks();
+            const stream = video.srcObject
+            const tracks = stream.getTracks()
             tracks.forEach(track => {
-                track.stop();
+                track.stop()
             });
-            document.getElementById('toggleStream').innerHTML = 'Stream 활성화';
-            document.getElementById('record').style.visibility = 'hidden';
+            document.getElementById('toggleStream').innerHTML = 'Stream 활성화'
+            document.getElementById('record').disabled = true
+            document.getElementById('send').disabled = true
         }
-        streaming = !streaming;
+        streaming = !streaming
     }
 
     let src, cap;
     function record() {
         document.getElementById('toggleStream').disabled = true
         document.getElementById('record').disabled = true
-        src = new cv.Mat(height, width, cv.CV_8UC4);
-        cap = new cv.VideoCapture('video');
-        setTimeout(process, 33);
+        document.getElementById('send').disabled = false
+        src = new cv.Mat(height, width, cv.CV_8UC4)
+        cap = new cv.VideoCapture('video')
+        setTimeout(process, 33)
     }
 
     var list = [];
     function process() {
         if (streaming === true) {
-            cap.read(src);
-            cv.imshow('output', src);
+            cap.read(src)
+            cv.imshow('output', src)
 
-            canvas.getContext('2d').drawImage(video, 0, 0);
-            list.push(canvas.toDataURL('image/jpeg'));
+            canvas.getContext('2d').drawImage(video, 0, 0)
+            list.push(canvas.toDataURL('image/jpeg'))
 
-            //console.log(src)
-            setTimeout(process, 33);
+            setTimeout(process, 33)
         }
     }
 
