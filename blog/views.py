@@ -16,7 +16,7 @@ def saveDB(request):
     for i, img in enumerate(data[1::2], start=1):
         img = base64.b64decode(img)
 
-        with open(os.path.join('result', f'{str(i)}.jpg'), "wb") as f:
+        with open(os.path.join('result', f'{str(i).zfill(7)}.jpg'), "wb") as f:
             f.write(img)
 
     # sql_query = 'INSERT INTO image (name, image) VALUE (%s, %s)'
