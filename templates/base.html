@@ -53,6 +53,7 @@
             <button id="send" onclick="sendData()" disabled>전송</button>
             <input type="hidden" name="result_data" value="" id="js_data_input">
         </form>
+        <h2 id="timer">3초</h2>
 
         <div class="video-container">
             <div class="video-item">
@@ -109,7 +110,7 @@
         streaming = !streaming
     }
 
-    let src, cap, start_date
+    let src, cap, start_date, delay
     function record() {
         document.getElementById('toggleStream').disabled = true
         document.getElementById('record').disabled = true
@@ -118,10 +119,11 @@
         cap = new cv.VideoCapture('video')
         start_date = new Date().getTime()
 
-        setTimeout(process, 20)
+        setTimeout(process, delay)
     }
 
     let list = []
+    let capture_time = 3
     function process() {
         if (streaming === true) {
             cap.read(src)
@@ -129,11 +131,12 @@
 
             list.push(canvas.toDataURL('image/jpeg'))
 
-            let date = new Date().getTime()
-            if (date - start_date >= 3000) {
+            let passed_time = new Date().getTime() - start_date
+            document.getElementById('timer').textContent = String(Math.ceil(capture_time - passed_time / 1000)) + '초'
+            if (passed_time >= capture_time * 1000) {
                 return
             }
-            setTimeout(process, 20)
+            setTimeout(process, delay)
         }
     }
 
