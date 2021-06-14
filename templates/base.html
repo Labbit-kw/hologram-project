@@ -19,10 +19,9 @@
             align-items: center;
             justify-content: center;
         }
-        .video-container{
+        .video-container {
             display: flex;
             width: 550px;
-
             justify-content: space-around;
         }
         .video-item > h2 {
@@ -30,15 +29,11 @@
         }
         .video-item > video {
             border: 1px solid red;
-            width: 640px;
-            height: 480px;
         }
         .video-item > canvas {
             border: 1px solid red;
-            width: 640px;
-            height: 480px;
         }
-        button, a{
+        button, a {
             border: none;
             font-size: 14px;
             background: #ccc;
@@ -46,7 +41,7 @@
             cursor: pointer;
         }
     </style>
-    <title>Opencv.js tutorial</title>
+    <title>Hologram project</title>
 </head>
 <script async src="https://docs.opencv.org/3.4/opencv.js"></script>
 <body onload="setSize()">
@@ -62,39 +57,30 @@
         <div class="video-container">
             <div class="video-item">
                 <h2>미리보기</h2>
-                <video autoplay muted id="video"></video>
+                <video id="video" autoplay muted></video>
             </div>
             <div class="video-item">
                 <h2>녹화영상</h2>
-            <canvas id="output"></canvas>
+                <canvas id="output"></canvas>
             </div>
         </div>
     </div>
 </body>
 <script>
     let width, height
-
-    function setSize() {
-        if (window.orientation === 0) {
-            //portrait
-            width = 480; height = 640;
-        }
-        else {
-            //landscape
-            width = 640; height = 480;
-        }
-    }
-
-    const constraints = {
-        video: true, audio: false
-    }
     const video = document.getElementById('video')
     const canvas = document.getElementById('output')
-    canvas.width = width
-    canvas.height = height
+
+    function setSize() {
+        width = 640
+        height = 480
+        video.width = width
+        video.height = height
+        canvas.width = width
+        canvas.height = height
+    }
 
     function successCallback(stream) {
-        video.width = width; video.height = height  //prevent Opencv.js error.
         video.srcObject = stream
         video.play()
         document.getElementById('toggleStream').innerHTML = 'Stream 비활성화'
@@ -108,7 +94,7 @@
     let streaming = false
     function toggleStream() {
         if (streaming === false) {
-            navigator.getUserMedia(constraints, successCallback, errorCallback)
+            navigator.getUserMedia({video: true, audio: false}, successCallback, errorCallback)
         }
         else {
             const stream = video.srcObject
@@ -131,6 +117,7 @@
         src = new cv.Mat(height, width, cv.CV_8UC4)
         cap = new cv.VideoCapture('video')
         start_date = new Date().getTime()
+
         setTimeout(process, 20)
     }
 
@@ -140,15 +127,12 @@
             cap.read(src)
             cv.imshow('output', src)
 
-            canvas.getContext('2d').drawImage(video, 0, 0)
             list.push(canvas.toDataURL('image/jpeg'))
 
             let date = new Date().getTime()
-            if (date - start_date >= 3000) {
-                return
+            if (date - start_date <= 3000) {
+                setTimeout(process, 20)
             }
-
-            setTimeout(process, 20)
         }
     }
 
