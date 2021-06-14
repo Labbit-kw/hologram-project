@@ -130,9 +130,10 @@
             list.push(canvas.toDataURL('image/jpeg'))
 
             let date = new Date().getTime()
-            if (date - start_date <= 3000) {
-                setTimeout(process, 20)
+            if (date - start_date >= 3000) {
+                return
             }
+            setTimeout(process, 20)
         }
     }
 
