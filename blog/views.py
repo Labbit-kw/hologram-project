@@ -13,11 +13,11 @@ def saveDB(request):
     data = form['result_data'].split(',')
 
     os.makedirs('result', exist_ok=True)
-    for i in range(1, len(data), 2):
-        data[i] = base64.b64decode(data[i])
+    for i, img in enumerate(data[1::2], start=1):
+        img = base64.b64decode(img)
 
-        with open(os.path.join('result', f'{str(i)}_img.jpg'), "wb") as fh:
-            fh.write(data[i])
+        with open(os.path.join('result', f'{str(i)}.jpg'), "wb") as f:
+            f.write(img)
 
     # sql_query = 'INSERT INTO image (name, image) VALUE (%s, %s)'
 
