@@ -53,7 +53,7 @@
             <button id="send" onclick="sendData()" disabled>전송</button>
             <input type="hidden" name="result_data" value="" id="js_data_input">
         </form>
-        <h2 id="timer">3초</h2>
+        <h2 id="timer">6초</h2>
 
         <div class="video-container">
             <div class="video-item">
@@ -124,7 +124,7 @@
     }
 
     let list = []
-    let capture_time = 3
+    let capture_time = 6
     function process() {
         if (streaming === true) {
             cap.read(src)
