@@ -68,13 +68,14 @@
     </div>
 </body>
 <script>
-    let width, height
+    let width = 640
+    let height = 480
+    let capture_time = 6
+    let delay = 20
+
     const video = document.getElementById('video')
     const canvas = document.getElementById('output')
-
     function setSize() {
-        width = 640
-        height = 480
         video.width = width
         video.height = height
         canvas.width = width
@@ -110,8 +111,7 @@
         streaming = !streaming
     }
 
-    let src, cap, start_date
-    let delay = 20
+    let src, cap, start_date, audio
     function record() {
         document.getElementById('toggleStream').disabled = true
         document.getElementById('record').disabled = true
@@ -119,12 +119,12 @@
         src = new cv.Mat(height, width, cv.CV_8UC4)
         cap = new cv.VideoCapture('video')
         start_date = new Date().getTime()
+        audio = new Audio('../res/beep.mp3')
 
         setTimeout(process, delay)
     }
 
     let list = []
-    let capture_time = 6
     function process() {
         if (streaming === true) {
             cap.read(src)
@@ -132,9 +132,9 @@
 
             list.push(canvas.toDataURL('image/jpeg'))
 
-            let passed_time = new Date().getTime() - start_date
-            document.getElementById('timer').textContent = String(Math.ceil(capture_time - passed_time / 1000)) + '초'
-            if (passed_time >= capture_time * 1000) {
+            let passed_time = (new Date().getTime() - start_date) / 1000
+            document.getElementById('timer').textContent = String(Math.ceil(capture_time - passed_time)) + '초'
+            if (passed_time >= capture_time) {
                 return
             }
             setTimeout(process, delay)
