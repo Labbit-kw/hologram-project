@@ -111,30 +111,23 @@
         streaming = !streaming
     }
 
-    function sleep(ms) {
-        return new Promise((r) => setTimeout(r, ms));
-    }
-
-    function standby(time) {
+    async function standby(time) {
         let context = canvas.getContext('2d')
-        context.clearRect(0, 0, canvas.width, canvas.height)
-        context.font = '100px Arial'
+        context.font = '160px Arial'
         context.fillStyle = 'white'
-        context.fillText(String(time), canvas.width / 2, canvas.height / 2)
-        time--
 
-        if (time === 0) {
-            return
+        for (;time >= 1; time--) {
+            context.clearRect(0, 0, canvas.width, canvas.height)
+            context.fillText(String(time), canvas.width / 2, canvas.height / 2)
+            await sleep(1000)
         }
-        setTimeout(standby, 1000, time)
     }
 
     async function record() {
         document.getElementById('toggleStream').disabled = true
         document.getElementById('record').disabled = true
         document.getElementById('send').disabled = false
-        standby(3)
-        await sleep(3000)
+        await standby(3)
 
         src = new cv.Mat(height, width, cv.CV_8UC4)
         cap = new cv.VideoCapture('video')
@@ -161,6 +154,10 @@
     function sendData() {
         document.getElementById('send').style.visibility = 'hidden'
         document.getElementById('js_data_input').value = frames
+    }
+
+    function sleep(ms) {
+        return new Promise((r) => setTimeout(r, ms));
     }
 </script>
 </html>
