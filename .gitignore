@@ -2,6 +2,7 @@
 .idea/
 result/
 debug.py
+debug.html
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
