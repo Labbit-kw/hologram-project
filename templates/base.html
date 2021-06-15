@@ -111,10 +111,30 @@
         streaming = !streaming
     }
 
-    function record() {
+    function sleep(ms) {
+        return new Promise((r) => setTimeout(r, ms));
+    }
+
+    function standby(time) {
+        let context = canvas.getContext('2d')
+        context.clearRect(0, 0, canvas.width, canvas.height)
+        context.font = '100px Arial'
+        context.fillStyle = 'white'
+        context.fillText(String(time), canvas.width / 2, canvas.height / 2)
+        time--
+
+        if (time === 0) {
+            return
+        }
+        setTimeout(standby, 1000, time)
+    }
+
+    async function record() {
         document.getElementById('toggleStream').disabled = true
         document.getElementById('record').disabled = true
         document.getElementById('send').disabled = false
+        standby(3)
+        await sleep(3000)
 
         src = new cv.Mat(height, width, cv.CV_8UC4)
         cap = new cv.VideoCapture('video')
@@ -132,6 +152,7 @@
         let passed_time = (Date.now() - start_date) / 1000
         document.getElementById('timer').textContent = String(Math.ceil(capture_time - passed_time)) + '초'
         if (passed_time >= capture_time) {
+            src.delete()
             return
         }
         setTimeout(recordVideo, 1000 / fps - (Date.now() - begin))
