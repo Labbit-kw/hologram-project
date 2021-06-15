@@ -2,7 +2,6 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="'viewport" content="width=device-width, inital-scale=1.0">
     <style>
         * {
             margin: 0;
@@ -40,11 +39,14 @@
             padding: 0.5rem 1rem;
             cursor: pointer;
         }
+        video, canvas {
+            background-color: black;
+        }
     </style>
     <title>Hologram project</title>
 </head>
 <script async src="https://docs.opencv.org/3.4/opencv.js"></script>
-<body onload="setSize()">
+<body onload="onLoad()">
     <div class="wrapper">
         <button id="toggleStream" onclick="toggleStream()">Stream 활성화</button>
         <button id="record" onclick="record()" disabled>녹화</button>
@@ -68,35 +70,33 @@
     </div>
 </body>
 <script>
-    let width = 640
-    let height = 480
-    let capture_time = 6
-    let delay = 20
-
+    const width = 640
+    const height = 480
+    const fps = 30
+    const capture_time = 6
     const video = document.getElementById('video')
     const canvas = document.getElementById('output')
-    function setSize() {
+    let streaming = false
+    let src, cap, start_date
+    let frames = []
+
+    function onLoad() {
         video.width = width
         video.height = height
         canvas.width = width
         canvas.height = height
     }
 
-    function successCallback(stream) {
-        video.srcObject = stream
-        video.play()
-        document.getElementById('toggleStream').innerHTML = 'Stream 비활성화'
-        document.getElementById('record').disabled = false
-    }
-
-    function errorCallback(error) {
-        console.log(error)
-    }
-
-    let streaming = false
     function toggleStream() {
-        if (streaming === false) {
-            navigator.getUserMedia({video: true, audio: false}, successCallback, errorCallback)
+        if (!streaming) {
+            navigator.getUserMedia(
+                {video: true, audio: false},
+                function (stream){video.srcObject = stream; video.play()},
+                function (err){console.log(err)}
+            )
+            document.getElementById('toggleStream').innerHTML = 'Stream 비활성화'
+            document.getElementById('record').disabled = false
+            document.getElementById('send').disabled = true
         }
         else {
             const stream = video.srcObject
@@ -111,39 +111,35 @@
         streaming = !streaming
     }
 
-    let src, cap, start_date, audio
     function record() {
         document.getElementById('toggleStream').disabled = true
         document.getElementById('record').disabled = true
         document.getElementById('send').disabled = false
+
         src = new cv.Mat(height, width, cv.CV_8UC4)
         cap = new cv.VideoCapture('video')
-        start_date = new Date().getTime()
-        audio = new Audio('../res/beep.mp3')
+        start_date = Date.now()
 
-        setTimeout(process, delay)
+        recordVideo()
     }
 
-    let list = []
-    function process() {
-        if (streaming === true) {
-            cap.read(src)
-            cv.imshow('output', src)
+    function recordVideo() {
+        let begin = Date.now()
+        cap.read(src)
+        cv.imshow('output', src)
+        frames.push(canvas.toDataURL('image/jpeg'))
 
-            list.push(canvas.toDataURL('image/jpeg'))
-
-            let passed_time = (new Date().getTime() - start_date) / 1000
-            document.getElementById('timer').textContent = String(Math.ceil(capture_time - passed_time)) + '초'
-            if (passed_time >= capture_time) {
-                return
-            }
-            setTimeout(process, delay)
+        let passed_time = (Date.now() - start_date) / 1000
+        document.getElementById('timer').textContent = String(Math.ceil(capture_time - passed_time)) + '초'
+        if (passed_time >= capture_time) {
+            return
         }
+        setTimeout(recordVideo, 1000 / fps - (Date.now() - begin))
     }
 
     function sendData() {
         document.getElementById('send').style.visibility = 'hidden'
-        document.getElementById('js_data_input').value = list
+        document.getElementById('js_data_input').value = frames
     }
 </script>
 </html>
