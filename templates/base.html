@@ -78,7 +78,7 @@
     const video = document.getElementById('video')
     const canvas = document.getElementById('output')
     let streaming = false
-    let src, cap, start_date, audio
+    let src, cap, start_date
     let frames = []
 
     function onLoad() {
@@ -86,7 +86,6 @@
         video.height = height
         canvas.width = width
         canvas.height = height
-        audio = new Audio('/static/beep.mp3')
     }
 
     function toggleStream() {
@@ -119,7 +118,6 @@
         context.fillStyle = 'white'
 
         for (;time >= 1; time--) {
-            audio.play()
             context.clearRect(0, 0, canvas.width, canvas.height)
             context.fillText(String(time), canvas.width / 2, canvas.height / 2)
             await sleep(1000)
@@ -135,8 +133,13 @@
         src = new cv.Mat(height, width, cv.CV_8UC4)
         cap = new cv.VideoCapture('video')
         start_date = Date.now()
+        let audio = new Audio('/static/beep.mp3')
 
         recordVideo()
+        for (let i = capture_time; i >= 0; i--) {
+            audio.play()
+            await sleep(1000)
+        }
     }
 
     function recordVideo() {
