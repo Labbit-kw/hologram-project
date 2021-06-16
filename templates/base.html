@@ -117,7 +117,7 @@
         context.font = '160px Arial'
         context.fillStyle = 'white'
 
-        for (;time >= 1; time--) {
+        for (; time >= 1; time--) {
             context.clearRect(0, 0, canvas.width, canvas.height)
             context.fillText(String(time), canvas.width / 2, canvas.height / 2)
             await sleep(1000)
