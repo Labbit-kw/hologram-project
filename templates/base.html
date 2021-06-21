@@ -3,44 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-        html, body {
-            height: 100%;
-        }
-        .wrapper {
-            height: 100%;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .video-container {
-            display: flex;
-            width: 550px;
-            justify-content: space-around;
-        }
-        .video-item > h2 {
+        body {
             text-align: center;
         }
-        .video-item > video {
-            border: 1px solid red;
+        button {
+            font-size: large;
         }
-        .video-item > canvas {
-            border: 1px solid red;
-        }
-        button, a {
-            border: none;
-            font-size: 14px;
-            background: #ccc;
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-        }
-        video, canvas {
+        canvas, video {
             background-color: black;
+            display: inline-block;
         }
     </style>
     <title>Hologram project</title>
@@ -48,27 +19,16 @@
 </head>
 <script async src="https://docs.opencv.org/3.4/opencv.js"></script>
 <body onload="onLoad()">
-    <div class="wrapper">
-        <button id="toggleStream" onclick="toggleStream()">Stream 활성화</button>
-        <button id="record" onclick="record()" disabled>녹화</button>
-
-        <form action="{% url "blog:saveToDB" %}" method="POST">{% csrf_token %}
-            <button id="send" onclick="sendData()" disabled>전송</button>
-            <input type="hidden" name="result_data" value="" id="js_data_input">
-        </form>
-        <h2 id="timer">6초</h2>
-
-        <div class="video-container">
-            <div class="video-item">
-                <h2>미리보기</h2>
-                <video id="video" autoplay muted></video>
-            </div>
-            <div class="video-item">
-                <h2>녹화영상</h2>
-                <canvas id="output"></canvas>
-            </div>
-        </div>
-    </div>
+    <button id="toggleStream" onclick="toggleStream()">Stream 활성화</button><br>
+    <button id="record" onclick="record()" disabled>녹화</button><br>
+    <form action="{% url "blog:saveToDB" %}" method="POST">{% csrf_token %}
+        <button id="send" onclick="sendData()" disabled>전송</button>
+        <input type="hidden" name="result_data" value="" id="js_data_input">
+    </form>
+    <h2 id="timer">6초</h2>
+    <h2>미리보기 / 녹화영상</h2>
+    <video id="video" autoplay muted></video>
+    <canvas id="output"></canvas>
 </body>
 <script>
     const width = 640
