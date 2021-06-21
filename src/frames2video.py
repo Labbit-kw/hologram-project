@@ -3,8 +3,8 @@ import cv2
 import tqdm
 
 # 매개변수 설정
-image_dir = '../result'
-video_path = '../result/video.mp4'
+image_dir = '../result/original'
+video_path = '../result/original/video.mp4'
 fps = 30
 
 # 이미지의 파일명 불러오기
