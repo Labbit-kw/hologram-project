@@ -40,54 +40,55 @@ def saveDB(request):
         with open(os.path.join('./result/original', f'{str(i).zfill(3)}.jpg'), "wb") as f:
             f.write(img)
 
-    if len(img_list) % 2 :
-        img_list.pop()
-
-    center_index = int(len(img_list) / 2)
-
-    module_dir = os.path.dirname(__file__)
-    file_path = os.path.join(module_dir, 'haarcascade_frontalface_alt.xml')
-    cascade = cv2.CascadeClassifier(file_path)
-
-    while True:
-        file_bytes = numpy.asarray(bytearray(img_list[center_index]), dtype=numpy.uint8)
-        cemter_image = cv2.imdecode(file_bytes, cv2.IMREAD_GRAYSCALE)
-
-        center_detected = cascade.detectMultiScale(cemter_image, scaleFactor=1.1, minNeighbors=1, minSize=(30, 30))
-
-        if len(center_detected) > 0:
-            first_img = img_list[0]
-            last_img = img_list[-1]
-            center_1_img = img_list[center_index]
-            center_2_img = img_list[center_index+1]
-
-            left_img = img_list[1:center_index-1]
-            right_img = img_list[center_index+2:-2]
-
-            left_img_len = len(left_img)
-            right_img_len = len(right_img)
-
-            l_reduce_index = left_img_len - 62
-            r_reduce_index = right_img_len - 62
-
-            l_reduce_per = 62 / l_reduce_index
-            r_reduce_per = 62 / r_reduce_index
-
-            l_decimal = round(l_reduce_per % 1, 2)
-            r_decimal = round(r_reduce_per % 1, 2)
-
-            left_img = remove_img(left_img, l_decimal, l_reduce_index)
-            right_img = remove_img(right_img, r_decimal, r_reduce_index)
-
-            output_img = [first_img] + left_img + [center_1_img] + [center_2_img] + right_img + [last_img]
-
-            for k in range(len(output_img)):
-                with open(os.path.join('./result/output', f'{str(k).zfill(3)}.jpg'), "wb") as f:
-                    f.write(output_img[k])
-
-            break
-        else:
-            center_index += 1
+    # 이미지 제거
+    # if len(img_list) % 2 :
+    #     img_list.pop()
+    #
+    # center_index = int(len(img_list) / 2)
+    #
+    # module_dir = os.path.dirname(__file__)
+    # file_path = os.path.join(module_dir, 'haarcascade_frontalface_alt.xml')
+    # cascade = cv2.CascadeClassifier(file_path)
+    #
+    # while True:
+    #     file_bytes = numpy.asarray(bytearray(img_list[center_index]), dtype=numpy.uint8)
+    #     cemter_image = cv2.imdecode(file_bytes, cv2.IMREAD_GRAYSCALE)
+    #
+    #     center_detected = cascade.detectMultiScale(cemter_image, scaleFactor=1.1, minNeighbors=1, minSize=(30, 30))
+    #
+    #     if len(center_detected) > 0:
+    #         first_img = img_list[0]
+    #         last_img = img_list[-1]
+    #         center_1_img = img_list[center_index]
+    #         center_2_img = img_list[center_index+1]
+    #
+    #         left_img = img_list[1:center_index-1]
+    #         right_img = img_list[center_index+2:-2]
+    #
+    #         left_img_len = len(left_img)
+    #         right_img_len = len(right_img)
+    #
+    #         l_reduce_index = left_img_len - 62
+    #         r_reduce_index = right_img_len - 62
+    #
+    #         l_reduce_per = 62 / l_reduce_index
+    #         r_reduce_per = 62 / r_reduce_index
+    #
+    #         l_decimal = round(l_reduce_per % 1, 2)
+    #         r_decimal = round(r_reduce_per % 1, 2)
+    #
+    #         left_img = remove_img(left_img, l_decimal, l_reduce_index)
+    #         right_img = remove_img(right_img, r_decimal, r_reduce_index)
+    #
+    #         output_img = [first_img] + left_img + [center_1_img] + [center_2_img] + right_img + [last_img]
+    #
+    #         for k in range(len(output_img)):
+    #             with open(os.path.join('./result/output', f'{str(k).zfill(3)}.jpg'), "wb") as f:
+    #                 f.write(output_img[k])
+    #
+    #         break
+    #     else:
+    #         center_index += 1
 
 
 
