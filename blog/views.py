@@ -33,7 +33,7 @@ def saveDB(request):
 
     os.makedirs('./result/original', exist_ok=True)
     os.makedirs('./result/output', exist_ok=True)
-    date = str(time.strftime('%m%d%s', time.localtime(time.time())))
+    date = str(time.strftime('%m%d', time.localtime(time.time())))
     os.makedirs('./result/'+date, exist_ok=True)
     for i, img in enumerate(data[1::2], start=1):
         img = base64.b64decode(img)
