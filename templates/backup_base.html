@@ -116,7 +116,7 @@
     <script>
         var front = true;
         var imgList = [];
-
+        // https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/facingMode
         let constraints = { video: { facingMode: (front? "user" : "environment") } };
         //let constraints = { video: { facingMode: "user" }, audio: false };
         const cameraView = document.querySelector("#camera--view");
