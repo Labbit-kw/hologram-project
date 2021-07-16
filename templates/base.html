@@ -31,6 +31,7 @@
     <canvas id="output"></canvas>
 </body>
 <script>
+    let front = false
     let width = 640
     let height = 480
     const fps = 30
@@ -55,7 +56,7 @@
     function toggleStream() {
         if (!streaming) {
             navigator.getUserMedia(
-                {video: true, audio: false},
+                {video: { facingMode: (front ? "user" : "environment") }, audio: false},
                 function (stream){video.srcObject = stream; video.play()},
                 function (err){console.log(err)}
             )
