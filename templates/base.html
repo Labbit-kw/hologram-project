@@ -6,8 +6,8 @@
         body {
             text-align: center;
         }
-        button {
-            font-size: x-large;
+        button, span{
+            font-size: 3rem;
         }
         canvas, video {
             background-color: black;
@@ -19,18 +19,15 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 <script async src="https://docs.opencv.org/3.4/opencv.js"></script>
-<body onload="onLoad()">
-    <button id="toggleStream" onclick="toggleStream()">Stream 활성화</button><br>
-    <button id="record" onclick="record()" disabled>녹화</button><br>
+<body onload="toggleStream()">
+    <video id="video" autoplay muted></video>
+    <button id="toggleStream" onclick="toggleStream()">Stream 활성화</button>&nbsp;&nbsp;&nbsp;&nbsp;
+    <button id="record" onclick="record()" disabled>녹화</button>&nbsp;&nbsp;&nbsp;&nbsp;
+    <span id="timer">8초</span>
     <form action="{% url "blog:saveToDB" %}" method="POST">{% csrf_token %}
         <button id="send" onclick="sendData()" disabled>전송</button>
         <input type="hidden" name="result_data" value="" id="js_data_input">
     </form>
-    <h2 id="timer">8초</h2>
-    <h2>미리보기 / 녹화영상</h2>
-    <div class="video-container">
-        <video id="video" autoplay muted></video>
-    </div>
     <canvas id="canvas"></canvas>
 </body>
 <script>
@@ -44,10 +41,6 @@
     let streaming = false
     let src, cap, start_date
     let frames = []
-
-    function onLoad() {
-        toggleStream()
-    }
 
     function toggleStream() {
         if (!streaming) {
