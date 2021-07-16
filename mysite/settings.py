@@ -16,10 +16,13 @@ ko_formats.DATETIME_FORMAT = 'Y-m-d G:i:s'
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# Read SECRET_KEY from an environment variable
+
+SECRET_KEY = os.environ['SECRET_KEY']
 SECRET_KEY = '$gi^1=&1=+(g$)shk0tjp)6d#iomls+-317c!k+509dgq2xd$p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 WHITENOISE_MIMETYPES = {
     '.xsl': 'application/xml'
