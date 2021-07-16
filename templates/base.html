@@ -19,9 +19,8 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 <script async src="https://docs.opencv.org/3.4/opencv.js"></script>
-<body onload="toggleStream()">
+<body onload="onLoad()">
     <video id="video" autoplay muted></video>
-    <button id="toggleStream" onclick="toggleStream()">Stream 활성화</button>&nbsp;&nbsp;&nbsp;&nbsp;
     <button id="record" onclick="record()" disabled>녹화</button>&nbsp;&nbsp;&nbsp;&nbsp;
     <span id="timer">8초</span>
     <form action="{% url "blog:saveToDB" %}" method="POST">{% csrf_token %}
@@ -38,32 +37,26 @@
     const capture_time = 8
     const video = document.getElementById('video')
     const canvas = document.getElementById('canvas')
-    let streaming = false
     let src, cap, start_date
     let frames = []
 
+    function onLoad() {
+        video.width = width
+        video.height = height
+        canvas.width = width
+        canvas.height = height
+        toggleStream()
+    }
+
     function toggleStream() {
-        if (!streaming) {
-            navigator.getUserMedia(
-                {video: { facingMode: (front ? "user" : "environment"), width: width, height: height}, audio: false},
-                function (stream){video.srcObject = stream; video.play()},
-                function (err){console.log(err)}
-            )
-            document.getElementById('toggleStream').innerHTML = 'Stream 비활성화'
-            document.getElementById('record').disabled = false
-            document.getElementById('send').disabled = true
-        }
-        else {
-            const stream = video.srcObject
-            const tracks = stream.getTracks()
-            tracks.forEach(track => {
-                track.stop()
-            })
-            document.getElementById('toggleStream').innerHTML = 'Stream 활성화'
-            document.getElementById('record').disabled = true
-            document.getElementById('send').disabled = true
-        }
-        streaming = !streaming
+        navigator.getUserMedia(
+            {video: { facingMode: (front ? "user" : "environment"), width: width, height: height}, audio: false},
+            function (stream){video.srcObject = stream; video.play()},
+            function (err){console.log(err)}
+        )
+        document.getElementById('toggleStream').innerHTML = 'Stream 비활성화'
+        document.getElementById('record').disabled = false
+        document.getElementById('send').disabled = true
     }
 
     async function standby(time) {
