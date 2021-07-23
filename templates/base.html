@@ -86,14 +86,14 @@
         stream()
     }
 
-    async function standby(time) {
+    async function standby(time=3, print_offset=80) {
         let context = canvas.getContext('2d')
-        context.font = '160px Arial'
+        context.font = '20rem Arial'
         context.fillStyle = 'white'
 
         for (; time >= 1; time--) {
             context.clearRect(0, 0, canvas.width, canvas.height)
-            context.fillText(String(time), canvas.width / 2, canvas.height / 2)
+            context.fillText(String(time), canvas.width / 2 - print_offset, canvas.height / 2 + print_offset)
             await sleep(1000)
         }
     }
@@ -103,7 +103,7 @@
         document.getElementById('record').disabled = true
         document.getElementById('send').disabled = false
         canvas.style.visibility = 'visible'
-        await standby(3)
+        await standby()
         video.style.visibility = 'hidden'
 
         src = new cv.Mat(height, width, cv.CV_8UC4)
