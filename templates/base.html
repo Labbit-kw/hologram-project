@@ -64,7 +64,7 @@
         video.height = height
         canvas.width = width
         canvas.height = height
-        canvas.style.display = 'none'
+        canvas.style.visibility = 'hidden'
         stream()
     }
 
@@ -99,9 +99,9 @@
         document.getElementById('switch_camera').disabled = true
         document.getElementById('record').disabled = true
         document.getElementById('send').disabled = false
-        video.style.display = 'none'
-        canvas.style.display = 'block'
+        canvas.style.visibility = 'visible'
         await standby(3)
+        video.style.visibility = 'hidden'
 
         src = new cv.Mat(height, width, cv.CV_8UC4)
         cap = new cv.VideoCapture('video')
