@@ -18,11 +18,11 @@ ko_formats.DATETIME_FORMAT = 'Y-m-d G:i:s'
 # SECURITY WARNING: keep the secret key used in production secret!
 # Read SECRET_KEY from an environment variable
 
-SECRET_KEY = os.environ['SECRET_KEY']
+#SECRET_KEY = os.environ['SECRET_KEY']
 SECRET_KEY = '$gi^1=&1=+(g$)shk0tjp)6d#iomls+-317c!k+509dgq2xd$p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 WHITENOISE_MIMETYPES = {
     '.xsl': 'application/xml'
