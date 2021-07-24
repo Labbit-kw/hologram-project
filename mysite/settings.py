@@ -22,7 +22,7 @@ ko_formats.DATETIME_FORMAT = 'Y-m-d G:i:s'
 SECRET_KEY = '$gi^1=&1=+(g$)shk0tjp)6d#iomls+-317c!k+509dgq2xd$p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 WHITENOISE_MIMETYPES = {
     '.xsl': 'application/xml'
@@ -76,25 +76,25 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-
-    'default': {
-
-        'ENGINE': 'django.db.backends.mysql',  # mysql 드라이버 엔진.
-
-        'NAME': 'test',
-
-        'USER': 'root',
-
-        'PASSWORD': '1234',
-
-        'HOST': '127.0.0.1',
-
-        'PORT': '3306',
-
-    }
-
-}
+# DATABASES = {
+#
+#     'default': {
+#
+#         'ENGINE': 'django.db.backends.mysql',  # mysql 드라이버 엔진.
+#
+#         'NAME': 'test',
+#
+#         'USER': 'root',
+#
+#         'PASSWORD': '1234',
+#
+#         'HOST': '127.0.0.1',
+#
+#         'PORT': '3306',
+#
+#     }
+#
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
