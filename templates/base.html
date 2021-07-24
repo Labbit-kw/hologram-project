@@ -76,7 +76,7 @@
     let frames = []
 
     function onLoad() {
-        if (navigator.platform.indexOf('arm') !== -1) {
+        if (navigator.platform.indexOf('arm') !== -1 || navigator.platform.indexOf('aarch') !== -1) {
             [width, height] = [height, width]
         }
         video.width = width
