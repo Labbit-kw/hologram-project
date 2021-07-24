@@ -45,7 +45,7 @@
     <title>Hologram project</title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
-<script async src="https://docs.opencv.org/3.4/opencv.js"></script>
+<script src="https://docs.opencv.org/3.4/opencv.js"></script>
 <body onload="onLoad()">
     <video id="video" autoplay muted></video>
     <canvas id="guideline"></canvas>
@@ -53,7 +53,7 @@
     <div id="timer">8초</div>
     <button id="switch_camera" onclick="switchCamera()">카메라 전환</button>
     <button id="record" onclick="record()">녹화</button>
-    <form id="form" action="{% url "blog:saveToDB" %}" method="POST">{% csrf_token %}
+    <form action="{% url "blog:saveToDB" %}" method="POST">{% csrf_token %}
         <button id="send" onclick="sendData()" disabled>전송</button>
         <input type="hidden" name="result_data" value="" id="js_data_input">
     </form>
