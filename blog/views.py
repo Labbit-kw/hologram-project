@@ -2,11 +2,6 @@
 from django.shortcuts import render
 import base64
 import os
-import pymysql
-import requests
-import re
-import cv2
-import numpy
 import time
 
 def remove_img(img_list, decimal, reduce_index):
