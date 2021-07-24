@@ -57,6 +57,9 @@
         <button id="send" onclick="sendData()" disabled>전송</button>
         <input type="hidden" name="result_data" value="" id="js_data_input">
     </form>
+    <div>
+			<progress id="progress" value="20" max="100"></progress>
+    </div>
 </body>
 <script>
     let front_camera = false
@@ -68,6 +71,7 @@
     const video = document.getElementById('video')
     const canvas = document.getElementById('canvas')
     const guideline = document.getElementById('guideline')
+    const progressBar = document.getElementById('progress')
     let src, cap, start_date
     let frames = []
 
@@ -162,6 +166,7 @@
     function sendData() {
         document.getElementById('send').style.visibility = 'hidden'
         document.getElementById('js_data_input').value = frames
+        progressBar.value = 100;
     }
 
     function sleep(ms) {
