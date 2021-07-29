@@ -22,7 +22,7 @@ ko_formats.DATETIME_FORMAT = 'Y-m-d G:i:s'
 SECRET_KEY = '$gi^1=&1=+(g$)shk0tjp)6d#iomls+-317c!k+509dgq2xd$p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 WHITENOISE_MIMETYPES = {
     '.xsl': 'application/xml'
@@ -95,6 +95,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 #     }
 #
 # }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -140,5 +141,6 @@ USE_TZ = False
 # STATIC_URL = '/static/'
 # STATICFILES_DIRS = (os.path.join('static'),)  # 정적 파일이 있는 위치
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
