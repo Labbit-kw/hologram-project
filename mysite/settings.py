@@ -142,5 +142,5 @@ USE_TZ = False
 # STATICFILES_DIRS = (os.path.join('static'),)  # 정적 파일이 있는 위치
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
