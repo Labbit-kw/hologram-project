@@ -96,7 +96,7 @@
                     width: camera_resolution[0],
                     height: camera_resolution[1]}, audio: false},
             function (stream){video.srcObject = stream; video.play()},
-            function (err){console.log(err)}
+            function (err){alert(err)}
         )
     }
 
