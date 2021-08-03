@@ -113,6 +113,7 @@
 
     function switchCamera() {
         front_camera = !front_camera
+        video.srcObject.getTracks().forEach(track => {track.stop()})
         stream()
     }
 
