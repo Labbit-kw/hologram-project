@@ -46,6 +46,7 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 <script src="https://docs.opencv.org/3.4/opencv.js"></script>
+<!-- 구성요소 생성 -->
 <body onload="onLoad()">
     <video id="video" autoplay muted></video>
     <canvas id="guideline"></canvas>
@@ -62,19 +63,20 @@
     </div>
 </body>
 <script>
-    let front_camera = false
-    let width = 640
-    let height = 480
-    let camera_resolution = [width, height]
-    const fps = 30
-    const capture_time = 8
+    let front_camera = false    // 전면 카메라 사용 유무
+    let width = 640     // 해상도 (너비)
+    let height = 480    // 해상도 (높이)
+    let camera_resolution = [width, height]     // 해상도
+    const fps = 30      //FPS
+    const capture_time = 8  // 캡쳐 시간
     const video = document.getElementById('video')
     const canvas = document.getElementById('canvas')
     const guideline = document.getElementById('guideline')
     const progressBar = document.getElementById('progress')
     let src, cap, start_date
-    let frames = []
+    let frames = []     // 캡쳐한 프레임들을 임시로 저장하는 배열
 
+    // 페이지를 로드하면 실행 (구성요소들 초기화)
     function onLoad() {
         if (navigator.platform.indexOf('arm') !== -1 || navigator.platform.indexOf('aarch') !== -1) {
             [width, height] = [height, width]
@@ -90,6 +92,7 @@
         draw_guideline()
     }
 
+    // 웹에서 카메라 사용을 위한 스트림 생성
     function stream() {
         navigator.getUserMedia(
             {video: {facingMode: (front_camera ? "user" : "environment"),
@@ -100,6 +103,7 @@
         )
     }
 
+    // 카메라 프리뷰에 십자 안내선 생성
     function draw_guideline() {
         let context = guideline.getContext('2d')
         context.strokeStyle = 'white'
@@ -111,12 +115,14 @@
         context.stroke()
     }
 
+    // 전/후면 카메라 전환
     function switchCamera() {
         front_camera = !front_camera
         video.srcObject.getTracks().forEach(track => {track.stop()})
         stream()
     }
 
+    // 녹화 시작 버튼을 누르면 3초 대기 후 실제 녹화 시작
     async function standby(time=3, print_offset=80) {
         let context = canvas.getContext('2d')
         context.font = '20rem Arial'
@@ -129,6 +135,7 @@
         }
     }
 
+    // 녹화 버튼을 클릭하면 실행되는 메소드
     async function record() {
         document.getElementById('switch_camera').disabled = true
         document.getElementById('record').disabled = true
@@ -149,6 +156,7 @@
         }
     }
 
+    // 실제 녹화
     function recordVideo() {
         let begin = Date.now()
         cap.read(src)
@@ -164,12 +172,14 @@
         setTimeout(recordVideo, 1000 / fps - (Date.now() - begin))
     }
 
+    // 서버로 프레임 데이터 전송
     function sendData() {
         document.getElementById('send').style.visibility = 'hidden'
         document.getElementById('js_data_input').value = frames
         progressBar.value = 100;
     }
 
+    // 지정된 시간만큼 코드 실행 대기
     function sleep(ms) {
         return new Promise((r) => setTimeout(r, ms));
     }

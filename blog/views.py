@@ -18,6 +18,7 @@ def remove_img(img_list, decimal, reduce_index):
     return img_list
 
 
+# 클라이언트가 보내온 프레임 데이터를 서버에서 처리하는 코드 (DB 저장은 비활성화됨)
 def saveDB(request):
     form = request.POST
     data = form['result_data'].split(',')
