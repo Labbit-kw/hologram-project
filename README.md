@@ -63,7 +63,7 @@
 
 6. Connect to MariaDB and create database (schema).
 
-   ![2](img\2.png)
+   ![2](img/2.png)
 
 7. Create 'test' table.
 
